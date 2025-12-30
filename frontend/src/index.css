@@ -61,11 +61,11 @@ body{
 
 @font-face {
   font-family: "Heading";
-  src: url("./assets/fonts/Marcellus.ttf") format("truetype");
+  src: url("./assets/fonts/Oswald.ttf") format("truetype");
   font-display: swap;
 }
 
-.heading-font {
+.heading {
   font-family: "Heading", sans-serif;
 
   font: italic;

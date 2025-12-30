@@ -15,7 +15,7 @@ const App = () => {
   return (
     <>
       <div>
-        <h1 className="text-6xl text-center pt-35">HELLO WORLD</h1>
+        <h1 className="text-6xl heading font-light text-center pt-35">Hello World</h1>
       </div>
     </>
   );
