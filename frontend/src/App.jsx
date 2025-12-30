@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import ThemeToggle from "./components/ThemeToggle";
+import Navbar from "./layouts/Navbar";
 const App = () => {
   const { mode } = useSelector((state) => state.theme);
 
@@ -15,7 +16,8 @@ const App = () => {
   return (
     <>
       <div>
-        <ThemeToggle/>
+        
+        <Navbar/>
         <h1 className="text-6xl heading font-light text-center pt-35">Hello World</h1>
       </div>
     </>
