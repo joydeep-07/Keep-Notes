@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+body{
+  background-color: var( --bg-main);
+  color: var(--text-main);
+}
+
+/* ROOT – LIGHT MODE */
+:root {
+  /* Backgrounds */
+  --bg-main: #ffffff;
+  --bg-secondary: #f7f7f7;
+  --bg-gradient: linear-gradient(
+  135deg,
+  #ecfdf5,
+  #d1fae5,
+  #a7f3d0
+);
+
+  /* Text */
+  --text-main: #191919; 
+  --text-secondary: #212121;
+
+  /* Accent Colors */
+  --accent-primary: rgb(26, 124, 26);
+  --accent-secondary: #66bb6a;
+
+  /* Borders */
+  --border-light: #e0e0e0;
+}
+
+/* DARK MODE */
+.dark {
+  /* Backgrounds */
+  --bg-main: #0b0b0b; 
+  --bg-secondary: #0f0f0f;
+--bg-gradient: linear-gradient(
+  135deg,
+  #022c17,
+  #064e2e,
+  #065f2b
+);
+
+  /* Text */
+  --text-main: #d4d4d4;
+  --text-secondary: #d4d4d4;
+
+  /* Accent Colors */
+  --accent-primary: #66bb6a;
+  --accent-secondary: #66bb6a;
+
+  /* Borders */
+  --border-light: #1f1f1f;
+}
+
+/* Smooth transition for all theme-dependent properties */
+* {
+  transition: background-color 0.4s ease, color 0.4s ease,
+    border-color 0.4s ease;
+}
+
+@font-face {
+  font-family: "Heading";
+  src: url("./assets/fonts/Marcellus.ttf") format("truetype");
+  font-display: swap;
+}
+
+.heading-font {
+  font-family: "Heading", sans-serif;
+
+  font: italic;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  animation: marquee linear infinite;
+}
+
+/* ==================================== SELECTION ====================================  */
+
+::selection {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.my-text::selection {
+  background: #10b981;
+  color: #ffffff;
+}
+.my-text::-moz-selection {
+  background: #10b981;
+  color: #ffffff;
+}
+
+input::selection,
+textarea::selection {
+  background: #16a34a;
+  color: #ffffff;
+}
+input::-moz-selection,
+textarea::-moz-selection {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+/* ==================================== SELECTION ====================================  */
