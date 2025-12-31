@@ -68,7 +68,7 @@ const Register = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-auto">
-      <div className="w-full max-w-7xl overflow-hidden lg:grid lg:grid-cols-2 bg-[var(--bg-secondary)] rounded-2xl ">
+      <div className="w-full max-w-7xl overflow-hidden lg:grid lg:grid-cols-2 ">
         {/* Left Side - Registration Form */}
         <div className="flex flex-col items-center justify-center p-6 sm:p-10 lg:p-12">
           <div className="w-full max-w-md space-y-8">
