@@ -4,8 +4,8 @@ const AuthImagePattern = ({ title, subtitle }) => {
     <div className="hidden lg:flex items-center justify-center p-20 rounded-r-lg">
       {" "}
       {/* Replaced bg-base-200 */}
-      <div className="max-w-sm text-center">
-        <div className="grid grid-cols-3 gap-3 mb-8">
+      <div className="max-w-sm  text-center">
+        <div className="grid grid-cols-3 mt-10 gap-3 mb-8">
           {[...Array(9)].map((_, i) => (
             <div
               key={i}
@@ -16,9 +16,11 @@ const AuthImagePattern = ({ title, subtitle }) => {
             />
           ))}
         </div>
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">{title}</h2>{" "}
+        <h2 className="text-2xl font-bold mb-2 text-[var(--text-main)] ">
+          {title}
+        </h2>{" "}
         {/* Added text color */}
-        <p className="text-gray-600">{subtitle}</p>{" "}
+        <p className="text-[var(--text-secondary)] text-sm ">{subtitle}</p>{" "}
         {/* Replaced text-base-content/60 */}
       </div>
     </div>
