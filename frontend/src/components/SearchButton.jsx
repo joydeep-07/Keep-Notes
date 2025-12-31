@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Search } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, easeInOut } from "framer-motion";
 
 const SearchButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +21,7 @@ const SearchButton = () => {
               exit={{ width: 0, opacity: 0, x: 12 }}
               transition={{
                 duration: 0.35,
-                ease: [0.4, 0, 0.2, 1], // Material-like easing
+                ease: easeInOut, // Material-like easing
               }}
               className="overflow-hidden"
             >
@@ -29,14 +29,17 @@ const SearchButton = () => {
                 autoFocus
                 type="text"
                 placeholder="Search..."
-                className="w-full bg-transparent outline-none text-sm px-2 text-[var(--text-main)]"
+                className="w-full bg-transparent outline-none text-sm px-5 text-[var(--text-main)]"
               />
             </motion.div>
           )}
         </AnimatePresence>
 
         <div onClick={() => setIsOpen(!isOpen)} className="p-2.5 rounded-full">
-          <Search className="w-4 h-4 text-[var(--text-secondary)] cursor-pointer shrink-0" />
+          <Search
+            size={16}
+            className="text-[var(--text-secondary)] cursor-pointer shrink-0"
+          />
         </div>
       </button>
     </div>

@@ -4,6 +4,7 @@ import SearchButton from "../components/SearchButton";
 import icon from "../assets/images/icon.png";
 import {Link, useNavigate} from 'react-router-dom'
 import { LogIn } from "lucide-react";
+import UserDetail from "../components/UserDetail";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             <SearchButton />
             <ThemeToggle />
-            
+            <UserDetail/>
 
             {/* <Link to={"/register"}>Register</Link> */}
           </div>

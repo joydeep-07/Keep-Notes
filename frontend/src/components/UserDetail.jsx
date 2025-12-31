@@ -1,0 +1,124 @@
+import React, { useState, useRef, useEffect } from "react";
+import { FaRegUser } from "react-icons/fa6";
+import { FiLogOut, FiChevronDown } from "react-icons/fi";
+
+const UserDetail = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const user = {
+    name: "John",
+    surname: "Doe",
+    email: "john.doe@example.com",
+    avatar: null,
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    console.log("Logging out...");
+    setIsOpen(false);
+  };
+
+  const getInitials = () => `${user.name[0]}${user.surname[0]}`.toUpperCase();
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      {/* Trigger */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="
+          flex items-center gap-2
+          px-3 py-2 rounded-full
+         
+          hover:shadow-md
+          transition-all duration-300
+          group
+        "
+      >
+        <div className="flex items-center justify-center font-semibold">
+          {user.avatar ? (
+            <img
+              src={user.avatar}
+              alt="avatar"
+              className="w-full h-full rounded-full object-cover"
+            />
+          ) : (
+           <>
+           <FaRegUser size={16} />
+           </>
+          )}
+        </div>
+
+       
+      </button>
+
+      {/* Dropdown */}
+      {isOpen && (
+        <div
+          className="
+            absolute right-0 mt-3 w-72
+            rounded-2xl
+            bg-[var(--bg-main)]/90 backdrop-blur-xl
+            border border-[var(--border-light)]
+            shadow-[0_20px_50px_rgba(0,0,0,0.08)]
+            overflow-hidden
+            z-50
+            animate-in fade-in slide-in-from-top-3 duration-200
+          "
+        >
+          {/* User Info */}
+          <div className="p-5 border-b border-[var(--border-light)]">
+            <div className="flex items-center gap-4">
+              <div className="w-11 h-11 rounded-full flex items-center justify-center bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-semibold tracking-wide">
+                {getInitials()}
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-[var(--text-main)] truncate">
+                  {user.name} {user.surname}
+                </p>
+                <p className="text-xs text-[var(--text-secondary)] truncate">
+                  {user.email}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="p-2">
+            <button
+              onClick={handleLogout}
+              className="
+                w-full flex items-center gap-3
+                px-4 py-2.5 rounded-xl
+                text-sm font-medium
+                text-red-600 dark:text-red-400
+                hover:bg-red-50 dark:hover:bg-red-950/30
+                transition-colors
+              "
+            >
+              <FiLogOut className="w-4 h-4" />
+              Log out
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Backdrop */}
+      {isOpen && (
+        <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+      )}
+    </div>
+  );
+};
+
+export default UserDetail;
