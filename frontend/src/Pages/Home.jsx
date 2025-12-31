@@ -5,9 +5,9 @@ import AddNote from '../components/AddNote'
 
 const Home = () => {
 
-    const [isData, setIsData] = useState(false)
+    const [isDataAvailable, setIsDataAvailable] = useState(false);
 
-  return !isData ? (
+  return !isDataAvailable ? (
     <div>
       <div className="flex justify-center items-center fixed w-full pt-20">
         <AddNote />
