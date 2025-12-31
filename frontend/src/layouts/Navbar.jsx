@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import ThemeToggle from "../components/ThemeToggle";
 import SearchButton from "../components/SearchButton";
 import icon from "../assets/images/icon.png";
-// import Button from "../components/Button";
-import {useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -45,7 +44,8 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             <SearchButton />
             <ThemeToggle />
-            
+            <Link to={"/login"}>Login</Link>
+            <Link to={"/register"}>Register</Link>
           </div>
         </div>
       </div>
