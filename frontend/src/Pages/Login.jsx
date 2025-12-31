@@ -46,81 +46,100 @@ const Login = () => {
   };
 
   return (
-    <div className="mt-20 mb-8 flex items-center p-4">
-      <div className="w-full overflow-hidden lg:grid lg:grid-cols-2">
-        {/* Left Side */}
-        <div className="flex  flex-col items-center p-6 sm:p-10">
-          <div className="w-full mt-16 max-w-lg space-y-6 lg:scale-[0.95]">
+    <div className="min-h-screen flex items-center justify-center p-4 ">
+      <div className="w-full max-w-7xl overflow-hidden lg:grid lg:grid-cols-2 bg-[var(--bg-secondary)] rounded-2xl ">
+        {/* Left Side - Login Form */}
+        <div className="flex flex-col items-center justify-center p-6 sm:p-10 lg:p-12">
+          <div className="w-full max-w-md space-y-8">
             {/* Header */}
-            <div className="text-center mb-6">
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
-                  <FiMessageSquare className="w-5 h-5 text-indigo-600" />
+            <div className="text-center">
+              <div className="flex flex-col items-center gap-3 mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[var(--bg-gradient)] flex items-center justify-center shadow-lg border border-[var(--border-light)]">
+                  <FiMessageSquare className="w-7 h-7 text-[var(--accent-primary)]" />
                 </div>
-                <h1 className="text-xl font-bold mt-2 text-gray-800">
+                <h1 className="text-2xl font-bold mt-2 text-[var(--text-main)]">
                   Welcome Back!
                 </h1>
-                <p className="text-sm text-gray-600">Sign in to your account</p>
+                <p className="text-sm text-[var(--text-secondary)]">
+                  Sign in to your account
+                </p>
               </div>
             </div>
 
+            {/* Error Message */}
             {authError && (
-              <div className="p-3 bg-red-50 text-sm text-red-700 rounded-lg flex items-center">
-                <FiAlertCircle className="mr-2" />
-                {authError}
+              <div className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl flex items-center shadow-sm">
+                <FiAlertCircle className="mr-3 text-red-600" />
+                <span className="text-sm text-amber-800">{authError}</span>
               </div>
             )}
 
-            <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
-              {/* Email */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+            {/* Login Form */}
+            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+              {/* Email Field */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-1">
                   Email
                 </label>
-                <div className="relative">
-                  <FiMail className="absolute left-3 top-2.5 text-gray-400 text-sm" />
+                <div className="relative group">
+                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
+                    <FiMail className="text-[var(--text-secondary)] group-focus-within:text-[var(--accent-primary)] transition-colors" />
+                  </div>
                   <input
                     type="email"
-                    className={`w-full pl-10 py-1.5 text-sm border-b ${
-                      errors.email ? "border-red-500" : "border-gray-300"
-                    } focus:outline-none focus:border-indigo-500`}
+                    className={`w-full pl-12 pr-4 py-3 text-sm bg-transparent border-b-2 focus:outline-none transition-all duration-300 ${
+                      errors.email
+                        ? "border-amber-500 focus:border-red-600"
+                        : "border-[var(--border-light)] focus:border-[var(--accent-primary)]"
+                    }`}
                     placeholder="Enter your email"
                     {...register("email", {
                       required: "Email is required",
                       pattern: {
                         value: /\S+@\S+\.\S+/,
-                        message: "Invalid email",
+                        message: "Invalid email address",
                       },
                     })}
                   />
                 </div>
                 {errors.email && (
-                  <p className="text-xs text-red-600 mt-1">
+                  <p className="text-xs text-red-600 mt-1 flex items-center">
+                    <FiAlertCircle className="mr-1" />
                     {errors.email.message}
                   </p>
                 )}
               </div>
 
-              {/* Password */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Password
-                </label>
-                <div className="relative">
-                  <FiLock className="absolute left-3 top-2.5 text-gray-400 text-sm" />
+              {/* Password Field */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <label className="block text-sm font-medium text-[var(--text-secondary)] mb-1">
+                    Password
+                  </label>
+                </div>
+                <div className="relative group">
+                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
+                    <FiLock className="text-[var(--text-secondary)] group-focus-within:text-[var(--accent-primary)] transition-colors" />
+                  </div>
                   <input
                     type={showPassword ? "text" : "password"}
-                    className={`w-full pl-10 pr-10 py-1.5 text-sm border-b ${
-                      errors.password ? "border-red-500" : "border-gray-300"
-                    } focus:outline-none focus:border-indigo-500`}
+                    className={`w-full pl-12 pr-12 py-3 text-sm bg-transparent border-b-2 focus:outline-none transition-all duration-300 ${
+                      errors.password
+                        ? "border-red-500 focus:border-red-600"
+                        : "border-[var(--border-light)] focus:border-[var(--accent-primary)]"
+                    }`}
                     placeholder="Enter your password"
                     {...register("password", {
                       required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters",
+                      },
                     })}
                   />
                   <button
                     type="button"
-                    className="absolute right-3 top-2.5 text-gray-400"
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
@@ -131,51 +150,64 @@ const Login = () => {
                   </button>
                 </div>
                 {errors.password && (
-                  <p className="text-xs text-red-600 mt-1">
+                  <p className="text-xs text-red-600 mt-1 flex items-center">
+                    <FiAlertCircle className="mr-1" />
                     {errors.password.message}
                   </p>
                 )}
               </div>
 
-              {/* Submit */}
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full flex items-center justify-center py-1.5 text-sm bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition disabled:opacity-50"
-              >
-                {isLoading ? (
-                  <>
-                    <FiLoader className="animate-spin mr-2" />
-                    Signing In...
-                  </>
-                ) : (
-                  "Sign In"
-                )}
-              </button>
+              {/* Submit Button */}
+              <div className="mt-5">
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full relative overflow-hidden group flex items-center justify-center py-2 px-4 text-sm font-medium bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white rounded-lg hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <span className="relative z-10 flex items-center">
+                    {isLoading ? (
+                      <>
+                        <FiLoader className="animate-spin mr-3" />
+                        Signing In...
+                      </>
+                    ) : (
+                      "Sign In"
+                    )}
+                  </span>
+                
+                </button>
+              </div>
 
-              <div className="flex justify-between text-xs">
-                <span className="text-gray-600">
-                  Don’t have an account?{" "}
-                  <Link to="/register" className="text-indigo-600 font-medium">
-                    Sign Up
+              {/* Sign Up Link */}
+              <div className="text-center pt-4 border-t border-[var(--border-light)]">
+                <span className="text-sm text-[var(--text-secondary)]">
+                  Don't have an account?{" "}
+                  <Link
+                    to="/register"
+                    className="font-semibold text-[var(--accent-primary)] hover:text-[var(--accent-secondary)] transition-colors"
+                  >
+                    Create Account
                   </Link>
                 </span>
-                <Link
-                  to="/forgot-password"
-                  className="text-indigo-600 font-medium"
-                >
-                  Forgot Password?
-                </Link>
               </div>
+              {/* <Link
+                to="/forgot-password"
+                className="text-xs font-medium text-[var(--accent-primary)] hover:text-[var(--accent-secondary)] transition-colors"
+              >
+                Forgot Password?
+              </Link> */}
             </form>
           </div>
         </div>
 
-        {/* Right Side */}
-        <AuthImagePattern
-          title="New Here?"
-          subtitle="Join our health community and get access to top-tier medical services."
-        />
+        {/* Right Side - Pattern */}
+        <div className="hidden lg:block">
+          <AuthImagePattern
+            title="New Here?"
+            subtitle="Join our community and experience seamless connection with our platform."
+            accentColor="var(--accent-primary)"
+          />
+        </div>
       </div>
     </div>
   );

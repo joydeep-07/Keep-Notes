@@ -1,7 +1,7 @@
 
 const AuthImagePattern = ({ title, subtitle }) => {
   return (
-    <div className="hidden lg:flex items-center justify-center rounded-r-lg">
+    <div className="hidden lg:flex items-center justify-center p-20 rounded-r-lg">
       {" "}
       {/* Replaced bg-base-200 */}
       <div className="max-w-sm text-center">
