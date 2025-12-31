@@ -2,6 +2,10 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import ThemeToggle from "./components/ThemeToggle";
 import Navbar from "./layouts/Navbar";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import Root from "./layouts/Root";
 const App = () => {
   const { mode } = useSelector((state) => state.theme);
 
@@ -16,9 +20,17 @@ const App = () => {
   return (
     <>
       <div>
+        <BrowserRouter>
+          <Routes>
+            {/* Layout Route */}
+            <Route path="/" element={<Root />}>
+              {/* <Route index element={<Home />} /> */}
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
         
-        <Navbar/>
-        <h1 className="text-6xl heading font-light text-center pt-35">Hello World</h1>
       </div>
     </>
   );

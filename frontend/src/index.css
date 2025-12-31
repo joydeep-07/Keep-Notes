@@ -71,6 +71,10 @@ body{
   font: italic;
 }
 
+.text-secondary{
+  color: var(--text-secondary);
+}
+
 ::-webkit-scrollbar {
   display: none;
 }

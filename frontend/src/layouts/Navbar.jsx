@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ThemeToggle from "../components/ThemeToggle";
 import SearchButton from "../components/SearchButton";
+import icon from "../assets/images/icon.png";
+import Button from "../components/Button";
+import {useNavigate} from 'react-router-dom'
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
 
   // Handle scroll effect
@@ -25,19 +29,26 @@ const Navbar = () => {
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex flex-col">
-            <h1 className="heading text-3xl text-[var(--accent-primary)]">
-              Keep Notes
-            </h1>
-            <p className="text-xs text-[var(--text-secondary)]">
-              Keep your notes secure here.
-            </p>
+          <div className="flex">
+            <img className="h-13.5" src={icon} alt="" />
+            <div className="flex flex-col">
+              <h1 className="heading text-3xl text-[var(--accent-primary)]">
+                Keep Notes
+              </h1>
+              <p className="text-xs text-secondary ">
+                Keep your notes secure here.
+              </p>
+            </div>
           </div>
 
           {/* Right side actions */}
           <div className="flex items-center gap-4">
             <SearchButton />
             <ThemeToggle />
+            <Button
+              text="Login"
+              onClick={() => navigate("/login")}
+            />
           </div>
         </div>
       </div>
