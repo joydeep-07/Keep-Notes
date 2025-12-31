@@ -4,54 +4,55 @@ body{
   background-color: var( --bg-main);
   color: var(--text-main);
 }
-
 /* ROOT – LIGHT MODE */
 :root {
-  /* Backgrounds - Light with bluish hints */
-  --bg-main: #ebe7e7;
-  --bg-secondary: #f8fafc;
+  /* Backgrounds – soft, premium, neutral */
+  --bg-main: #f4f6f8;
+  --bg-secondary: #e9edf2;
   --bg-gradient: linear-gradient(
     135deg,
-    #f0f9ff,
-    #e0f2fe,
-    #bae6fd
+    #f8fbff,
+    #eef4ff,
+    #e0ecff
   );
 
-  /* Text */
+  /* Text – strong readability */
   --text-main: #0f172a;
-  --text-secondary: #334155;
+  --text-secondary: #475569;
 
-  /* Accent Colors - Blue theme */
-  --accent-primary: #2c78f2;
-  --accent-secondary: #1d4ed8;
+  /* Accent Colors – trustworthy blue */
+  --accent-primary: #2563eb;   /* main action */
+  --accent-secondary: #1e40af; /* hover / focus */
 
   /* Borders */
-  --border-light: #e2e8f0;
+  --border-light: #dbe3ee;
 }
 
 /* DARK MODE */
 .dark {
-  /* Backgrounds - Blackish with blue undertones */
-  --bg-main: #1d1d1d;
-  --bg-secondary: #0f0f0f;
+  /* Backgrounds – soft faded black */
+  --bg-main: #121212;
+  --bg-secondary: #1a1a1a;
   --bg-gradient: linear-gradient(
     135deg,
-    #0a0a0a,
-    #0c1b33,
-    #0f172a
+    #141414,
+    #181818,
+    #1f1f1f
   );
 
   /* Text */
   --text-main: #f1f5f9;
   --text-secondary: #cbd5e1;
 
-  /* Accent Colors - Blue theme */
+  /* Accent Colors – unchanged */
   --accent-primary: #4891e9;
   --accent-secondary: #3b82f6;
 
-  /* Borders */
-  --border-light: #1e293b;
+  /* Borders – subtle separation */
+  --border-light: #2a2a2a;
 }
+
+
 
 /* Smooth transition for all theme-dependent properties */
 * {
