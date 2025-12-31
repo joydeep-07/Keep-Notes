@@ -1,9 +1,18 @@
-import React from 'react'
+import { Lightbulb } from "lucide-react";
+import React from "react";
 
 const NoNotes = () => {
   return (
-    <div>No Notes Availavle</div>
-  )
-}
+    <>
+      <div className=" h-screen flex justify-center items-center flex-col gap-10">
+        <Lightbulb size={150} className="text-secondary" />
 
-export default NoNotes
+        <div className=" text-secondary uppercase text-2xl">
+          No Notes Available
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default NoNotes;
