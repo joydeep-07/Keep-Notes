@@ -7,50 +7,50 @@ body{
 
 /* ROOT – LIGHT MODE */
 :root {
-  /* Backgrounds */
+  /* Backgrounds - Light with bluish hints */
   --bg-main: #ffffff;
-  --bg-secondary: #f7f7f7;
+  --bg-secondary: #f8fafc;
   --bg-gradient: linear-gradient(
-  135deg,
-  #ecfdf5,
-  #d1fae5,
-  #a7f3d0
-);
+    135deg,
+    #f0f9ff,
+    #e0f2fe,
+    #bae6fd
+  );
 
   /* Text */
-  --text-main: #191919; 
-  --text-secondary: #212121;
+  --text-main: #0f172a;
+  --text-secondary: #334155;
 
-  /* Accent Colors */
-  --accent-primary: rgb(26, 124, 26);
-  --accent-secondary: #66bb6a;
+  /* Accent Colors - Blue theme */
+  --accent-primary: #2c78f2;
+  --accent-secondary: #1d4ed8;
 
   /* Borders */
-  --border-light: #e0e0e0;
+  --border-light: #e2e8f0;
 }
 
 /* DARK MODE */
 .dark {
-  /* Backgrounds */
-  --bg-main: #0b0b0b; 
+  /* Backgrounds - Blackish with blue undertones */
+  --bg-main: #0a0a0a;
   --bg-secondary: #0f0f0f;
---bg-gradient: linear-gradient(
-  135deg,
-  #022c17,
-  #064e2e,
-  #065f2b
-);
+  --bg-gradient: linear-gradient(
+    135deg,
+    #0a0a0a,
+    #0c1b33,
+    #0f172a
+  );
 
   /* Text */
-  --text-main: #d4d4d4;
-  --text-secondary: #d4d4d4;
+  --text-main: #f1f5f9;
+  --text-secondary: #cbd5e1;
 
-  /* Accent Colors */
-  --accent-primary: #66bb6a;
-  --accent-secondary: #66bb6a;
+  /* Accent Colors - Blue theme */
+  --accent-primary: #4891e9;
+  --accent-secondary: #3b82f6;
 
   /* Borders */
-  --border-light: #1f1f1f;
+  --border-light: #1e293b;
 }
 
 /* Smooth transition for all theme-dependent properties */

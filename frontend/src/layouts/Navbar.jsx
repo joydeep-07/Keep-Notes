@@ -28,24 +28,26 @@ const Navbar = () => {
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex">
-            <img className="h-13.5" src={icon} alt="" />
-            <div className="flex flex-col">
-              <h1 className="heading text-3xl text-[var(--accent-primary)]">
-                Keep Notes
-              </h1>
-              <p className="text-xs text-secondary ">
-                Keep your notes secure here.
-              </p>
+          <Link to={"/"}>
+            <div className="flex">
+              {/* <img className="h-13.5" src={icon} alt="" />  */}
+              <div className="flex flex-col">
+                <h1 className="heading text-3xl text-[var(--accent-primary)]">
+                  Keep Notes
+                </h1>
+                <p className="text-xs text-secondary ">
+                  Keep your notes secure here.
+                </p>
+              </div>
             </div>
-          </div>
+          </Link>
 
           {/* Right side actions */}
           <div className="flex items-center gap-4">
             <SearchButton />
             <ThemeToggle />
             <Link to={"/login"}>Login</Link>
-            <Link to={"/register"}>Register</Link>
+            {/* <Link to={"/register"}>Register</Link> */}
           </div>
         </div>
       </div>

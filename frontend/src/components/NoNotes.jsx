@@ -5,9 +5,9 @@ const NoNotes = () => {
   return (
     <>
       <div className=" h-screen flex justify-center items-center flex-col gap-10">
-        <Lightbulb size={150} className="text-secondary" />
+        <Lightbulb size={150} className="text-[var(--text-secondary)]/20 " />
 
-        <div className=" text-secondary uppercase text-2xl">
+        <div className="text-[var(--text-secondary)]/70 uppercase text-2xl">
           No Notes Available
         </div>
       </div>
