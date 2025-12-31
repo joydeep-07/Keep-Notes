@@ -7,11 +7,12 @@ const AddNote = () => {
   const [add, setAdd] = useState(false);
   const [text, setText] = useState("");
   const [height, setHeight] = useState("auto");
+
+  // ONE ref for trigger + form (important)
   const containerRef = useRef(null);
   const textareaRef = useRef(null);
-  const formContentRef = useRef(null);
 
-  // Adjust textarea height dynamically
+  // Auto resize textarea
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
@@ -19,7 +20,7 @@ const AddNote = () => {
     }
   }, [text]);
 
-  // Detect click outside to close
+  // Click outside to close
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -29,20 +30,25 @@ const AddNote = () => {
         setAdd(false);
       }
     };
+
     if (add) {
       document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
     }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, [add]);
 
   return (
-    <div className="w-full border border-[var(--border-light)] rounded-lg max-w-xl mx-auto">
-      {/* FAQ Card-like Trigger */}
+    <div
+      ref={containerRef}
+      className="w-full border border-[var(--border-light)] rounded-lg max-w-xl mx-auto"
+    >
+      {/* Trigger */}
       <motion.div
-        onClick={() => setAdd(!add)}
-        className=" py-2 px-5 w-full flex rounded-xl  justify-between items-center cursor-pointer transition-all "
+        onClick={() => setAdd((prev) => !prev)}
+        className="py-2 px-5 w-full flex justify-between items-center cursor-pointer rounded-xl transition-all"
         whileTap={{ scale: 0.98 }}
         layout
       >
@@ -52,89 +58,67 @@ const AddNote = () => {
           </div>
           <p className="text-[var(--text-main)] font-medium">Take a Note…</p>
         </div>
+
         <motion.div
           animate={{ rotate: add ? 180 : 0 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
-          <FaChevronDown className="text-[var(--text-secondary)]" />
+          {add ? (
+            <FaChevronUp className="text-[var(--text-secondary)]" />
+          ) : (
+            <FaChevronDown className="text-[var(--text-secondary)]" />
+          )}
         </motion.div>
       </motion.div>
 
-      {/* FAQ Card-like Expandable Content */}
+      {/* Expandable Form */}
       <AnimatePresence>
         {add && (
           <motion.div
-            ref={containerRef}
-            initial={{
-              opacity: 0,
-              height: 0,
-              scale: 0.95,
-            }}
-            animate={{
-              opacity: 1,
-              height: "auto",
-              scale: 1,
-            }}
-            exit={{
-              opacity: 0,
-              height: 0,
-              scale: 0.95,
-            }}
+            initial={{ opacity: 0, height: 0, scale: 0.95 }}
+            animate={{ opacity: 1, height: "auto", scale: 1 }}
+            exit={{ opacity: 0, height: 0, scale: 0.95 }}
             transition={{
               duration: 0.4,
               ease: [0.04, 0.62, 0.23, 0.98],
             }}
             className="overflow-hidden origin-top"
-            style={{ transformOrigin: "top center" }}
           >
-            <motion.div
-              ref={formContentRef}
-              className="bg-[var(--bg-main)] text-[var(--text-main)] rounded-xl shadow-lg p-6 mt-3 rounded-t-none"
+            <div
+              className="bg-[var(--bg-main)] text-[var(--text-main)] shadow-lg p-6 mt-3 rounded-xl rounded-t-none"
               initial={{ y: -10 }}
               animate={{ y: 0 }}
               transition={{ delay: 0.1 }}
             >
-              {/* Title - FAQ-like styling */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.15 }}
-                className="mb-4"
-              >
+              {/* Title */}
+              <div className="mb-4">
                 <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
                   Event Title
                 </label>
                 <input
                   type="text"
                   placeholder="What's the event about?"
-                  className="w-full bg-[var(--bg-secondary)] border border-[var(--border-light)] text-[var(--text-main)] placeholder-[var(--text-secondary)] py-3 px-4 focus:outline-none focus:ring-1 focus:ring-[var(--border-light)] focus:border-transparent rounded-lg transition-all"
+                  className="w-full bg-[var(--bg-secondary)] border border-[var(--border-light)] py-3 px-4 rounded-lg focus:outline-none focus:ring-1 focus:ring-[var(--border-light)]"
                   autoFocus
                 />
-              </motion.div>
+              </div>
 
-              {/* Description - FAQ-like styling */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="mb-6"
-              >
+              {/* Description */}
+              <div className="mb-2">
                 <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
                   Description
                 </label>
                 <textarea
                   ref={textareaRef}
-                  placeholder="Describe the event in detail..."
                   value={text}
                   onChange={(e) => setText(e.target.value)}
-                  className="w-full bg-[var(--bg-secondary)] border border-[var(--border-light)] text-[var(--text-main)] placeholder-[var(--text-secondary)] py-3 px-4 resize-none focus:outline-none focus:ring-1 focus:ring-[var(--border-light)] focus:border-transparent rounded-lg transition-all min-h-[120px]"
+                  placeholder="Describe the event in detail..."
+                  className="w-full bg-[var(--bg-secondary)] border border-[var(--border-light)] py-3 px-4 resize-none rounded-lg focus:outline-none focus:ring-1 focus:ring-[var(--border-light)] min-h-[120px]"
                   style={{ height }}
                   rows={4}
                 />
-              </motion.div>
-
-             
-            </motion.div>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
