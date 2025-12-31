@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import { FaPenNib } from "react-icons/fa";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
@@ -58,16 +58,16 @@ const AddNote = () => {
           <p className="text-[var(--text-main)] font-medium">Add a Note</p>
         </div>
 
-        {/* <motion.div
-          animate={{ rotate: add ? 180 : 0 }}
+        <motion.div
+          animate={{ rotate: add ? -180 : 0 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
           {add ? (
-            <FaChevronUp className="text-[var(--text-secondary)]" />
+            <FaChevronUp size={12} className="text-[var(--text-secondary)]" />
           ) : (
-            <FaChevronDown className="text-[var(--text-secondary)]" />
+            <FaChevronUp size={12} className="text-[var(--text-secondary)]" />
           )}
-        </motion.div> */}
+        </motion.div>
       </motion.div>
 
       {/* Expandable Form */}
@@ -79,7 +79,7 @@ const AddNote = () => {
             exit={{ opacity: 0, height: 0, scale: 0.95 }}
             transition={{
               duration: 0.4,
-              ease: [0.04, 0.62, 0.23, 0.98],
+              ease: easeInOut,
             }}
             className="overflow-hidden origin-top"
           >
@@ -112,9 +112,8 @@ const AddNote = () => {
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   placeholder="Describe the event in detail..."
-                  
                   className="w-full border-b border-[var(--border-light)] py-3 px-4 resize-none focus:outline-none   overflow-hidden"
-                  rows={1} 
+                  rows={1}
                   style={{ height, lineHeight: 1.5 }}
                   animate={{ height }}
                   transition={{
