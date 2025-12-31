@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
 
   // Handle scroll effect
   useEffect(() => {
@@ -50,8 +50,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             {/* Search */}
             <button
-              onClick={() => setIsOpen(!isOpen)}
-              className={`relative flex items-center gap-2 p-2 rounded-full hover:bg-[var(--bg-secondary)] transition-colors ${
+              className={`relative flex items-center gap-2 rounded-full cursor-pointer transition-colors ${
                 isOpen ? "border border-[var(--border-light)]" : "border-none"
               }`}
             >
@@ -70,14 +69,19 @@ const Navbar = () => {
                     <input
                       autoFocus
                       type="text"
-                      placeholder="Search"
+                      placeholder="Search..."
                       className="w-full bg-transparent outline-none text-sm px-2 text-[var(--text-main)]"
                     />
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              <Search className="w-4 h-4 text-[var(--text-secondary)] shrink-0" />
+              <div className="p-2.5 rounded-full">
+                <Search
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="w-4 h-4 text-[var(--text-secondary)] shrink-0"
+                />
+              </div>
             </button>
 
             <ThemeToggle />
