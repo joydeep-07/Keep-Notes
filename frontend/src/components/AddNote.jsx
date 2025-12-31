@@ -53,10 +53,10 @@ const AddNote = () => {
         layout
       >
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-[var(--accent-color)] flex items-center justify-center text-white">
+          <div className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--text-secondary)] ">
             <FaPenNib size={14} />
           </div>
-          <p className="text-[var(--text-main)] font-medium">Take a Note…</p>
+          <p className="text-[var(--text-main)] font-medium">Add a Note</p>
         </div>
 
         <motion.div
@@ -93,12 +93,12 @@ const AddNote = () => {
               {/* Title */}
               <div className="mb-4">
                 <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
-                  Event Title
+                  Title
                 </label>
                 <input
                   type="text"
                   placeholder="What's the event about?"
-                  className="w-full bg-[var(--bg-secondary)] border border-[var(--border-light)] py-3 px-4 rounded-lg focus:outline-none focus:ring-1 focus:ring-[var(--border-light)]"
+                  className="w-full border-b border-[var(--border-light)] py-3 px-4 focus:outline-none  "
                   autoFocus
                 />
               </div>
@@ -106,16 +106,23 @@ const AddNote = () => {
               {/* Description */}
               <div className="mb-2">
                 <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
-                  Description
+                  Note
                 </label>
-                <textarea
+                <motion.textarea
                   ref={textareaRef}
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   placeholder="Describe the event in detail..."
-                  className="w-full bg-[var(--bg-secondary)] border border-[var(--border-light)] py-3 px-4 resize-none rounded-lg focus:outline-none focus:ring-1 focus:ring-[var(--border-light)] min-h-[120px]"
-                  style={{ height }}
-                  rows={4}
+                  
+                  className="w-full border-b border-[var(--border-light)] py-3 px-4 resize-none focus:outline-none   overflow-hidden"
+                  rows={1} 
+                  style={{ height, lineHeight: 1.5 }}
+                  animate={{ height }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 180,
+                    damping: 22,
+                  }}
                 />
               </div>
             </div>
