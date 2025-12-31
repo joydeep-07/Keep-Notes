@@ -49,7 +49,6 @@ const AddNote = () => {
       <motion.div
         onClick={() => setAdd((prev) => !prev)}
         className="py-2 px-5 w-full flex justify-between items-center cursor-pointer rounded-xl transition-all"
-        whileTap={{ scale: 0.98 }}
         layout
       >
         <div className="flex items-center gap-3">
@@ -59,7 +58,7 @@ const AddNote = () => {
           <p className="text-[var(--text-main)] font-medium">Add a Note</p>
         </div>
 
-        <motion.div
+        {/* <motion.div
           animate={{ rotate: add ? 180 : 0 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
@@ -68,7 +67,7 @@ const AddNote = () => {
           ) : (
             <FaChevronDown className="text-[var(--text-secondary)]" />
           )}
-        </motion.div>
+        </motion.div> */}
       </motion.div>
 
       {/* Expandable Form */}
