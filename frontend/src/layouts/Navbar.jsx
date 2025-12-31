@@ -47,28 +47,7 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             <SearchButton />
             <ThemeToggle />
-            <Link
-              to="/login"
-              className="
-    group relative inline-flex items-center justify-center
-    px-6 py-1.5 overflow-hidden rounded-lg
-    backdrop-blur-lg border
-
-    bg-[var(--bg-secondary)]
-    border-[var(--border-light)]
-    text-[var(--accent-primary)]
-
-    dark:bg-[var(--bg-secondary)]
-    dark:border-[var(--border-light)]
-    dark:text-[var(--accent-primary)]
-  "
-            >
-              <span className="relative flex items-center gap-2">
-                <span className="text-sm font-semibold tracking-wide">
-                  Login
-                </span>
-              </span>
-            </Link>
+            
 
             {/* <Link to={"/register"}>Register</Link> */}
           </div>

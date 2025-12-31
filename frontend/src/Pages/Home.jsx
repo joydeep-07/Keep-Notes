@@ -1,27 +1,28 @@
-import React, { useState } from 'react'
-import NoNotes from '../components/NoNotes'
-import Notes from '../components/Notes'
-import AddNote from '../components/AddNote'
+import React, { useState } from "react";
+import NoNotes from "../components/NoNotes";
+import Notes from "../components/Notes";
+import AddNote from "../components/AddNote";
+import NotLoggedIn from "../components/NotLoggedIn";
 
 const Home = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // 🔑 auth state
+  const [isDataAvailable, setIsDataAvailable] = useState(false);
 
-    const [isDataAvailable, setIsDataAvailable] = useState(false);
+  // 🔒 NOT LOGGED IN
+  if (!isLoggedIn) {
+    return <NotLoggedIn />;
+  }
 
-  return !isDataAvailable ? (
-    <div>
-      <div className="flex justify-center items-center fixed w-full pt-20">
-        <AddNote />
-      </div>
-      <NoNotes />
-    </div>
-  ) : (
+  // ✅ LOGGED IN
+  return (
     <>
       <div className="flex justify-center items-center fixed w-full pt-20">
         <AddNote />
       </div>
-      <Notes />
+
+      {!isDataAvailable ? <NoNotes /> : <Notes />}
     </>
   );
-}
+};
 
-export default Home
+export default Home;
