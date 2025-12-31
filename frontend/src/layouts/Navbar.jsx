@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X, Search, User, ShoppingCart, Moon, Sun } from "lucide-react";
 import ThemeToggle from "../components/ThemeToggle";
+import { motion, AnimatePresence } from "framer-motion";
+
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(true)
 
   // Handle scroll effect
   useEffect(() => {
@@ -14,6 +17,14 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleToggle = () =>{
+    if(!isOpen){
+      setIsMenuOpen(true)
+    }else{
+      setIsOpen(false)
+    }
+  }
 
   return (
     <nav
@@ -38,8 +49,35 @@ const Navbar = () => {
           {/* Right side actions */}
           <div className="flex items-center space-x-4">
             {/* Search */}
-            <button className="p-2 rounded-lg hover:bg-[var(--bg-secondary)] transition-colors">
-              <Search className="w-4 h-4 text-[var(--text-secondary)]" />
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className={`relative flex items-center gap-2 p-2 rounded-full hover:bg-[var(--bg-secondary)] transition-colors ${
+                isOpen ? "border border-[var(--border-light)]" : "border-none"
+              }`}
+            >
+              <AnimatePresence>
+                {isOpen && (
+                  <motion.div
+                    initial={{ width: 0, opacity: 0, x: 12 }}
+                    animate={{ width: 192, opacity: 1, x: 0 }}
+                    exit={{ width: 0, opacity: 0, x: 12 }}
+                    transition={{
+                      duration: 0.35,
+                      ease: [0.4, 0, 0.2, 1], // Material-like easing
+                    }}
+                    className="overflow-hidden"
+                  >
+                    <input
+                      autoFocus
+                      type="text"
+                      placeholder="Search"
+                      className="w-full bg-transparent outline-none text-sm px-2 text-[var(--text-main)]"
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <Search className="w-4 h-4 text-[var(--text-secondary)] shrink-0" />
             </button>
 
             <ThemeToggle />
