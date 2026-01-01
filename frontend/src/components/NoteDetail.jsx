@@ -82,11 +82,11 @@ const NoteDetail = ({ note, onClose }) => {
               {note.title}
             </h1>
 
-            <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+            <p className="text-sm text-justify text-[var(--text-secondary)] leading-relaxed">
               {note.note}
             </p>
 
-            <span className="block mt-10 text-xs text-[var(--text-muted)]">
+            <span className="block mt-6 text-xs text-[var(--text-muted)]">
               {note.date}
             </span>
 

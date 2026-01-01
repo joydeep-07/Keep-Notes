@@ -20,7 +20,7 @@ export const data = [
   {
     id: 4,
     title: "Doctor Appointment",
-    note: "Booked a general health check-up appointment. Remember to carry previous medical reports and reach the clinic on time.",
+    note: "Booked a general health check-up appointment. Remember to carry previous medical reports and reach the clinic on time.Booked a general health check-up appointment. Remember to carry previous medical reports and reach the clinic on time.Booked a general health check-up appointment. Remember to carry previous medical reports and reach the clinic on time.Booked a general health check-up appointment. Remember to carry previous medical reports and reach the clinic on time.Booked a general health check-up appointment. Remember to carry previous medical reports and reach the clinic on time.",
     date: "18th December 2025",
   },
   {

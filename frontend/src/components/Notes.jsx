@@ -5,6 +5,13 @@ import NoteDetail from "./NoteDetail";
 const Notes = () => {
   const [selectedNote, setSelectedNote] = useState(null);
 
+  const getPreview = (text, wordLimit = 20) => {
+    const words = text.split(" ");
+    return words.length > wordLimit
+      ? words.slice(0, wordLimit).join(" ") + "..."
+      : text;
+  };
+
   return (
     <>
       <div
@@ -30,24 +37,28 @@ const Notes = () => {
               cursor-pointer
               hover:shadow-md
               transition
+              flex
+              flex-col
             "
           >
             <h2 className="text-xl heading text-[var(--accent-primary)] mb-2">
               {item.title}
             </h2>
 
+            {/* Preview text */}
             <p className="text-xs text-[var(--text-secondary)]/80 leading-relaxed">
-              {item.note}
+              {getPreview(item.note, 15)}
             </p>
 
-            <span className="block mt-4 text-xs text-[var(--text-muted)]">
+            {/* Date always at bottom */}
+            <span className="mt-auto pt-4 text-xs text-[var(--text-muted)]">
               {item.date}
             </span>
           </div>
         ))}
       </div>
 
-      {/* POPUP */}
+      {/* Note Detail Modal */}
       {selectedNote && (
         <NoteDetail note={selectedNote} onClose={() => setSelectedNote(null)} />
       )}
