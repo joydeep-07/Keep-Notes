@@ -80,51 +80,7 @@ body{
   display: none;
 }
 
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
 
-.marquee {
-  animation: marquee linear infinite;
-}
 
-/* ==================================== SELECTION ====================================  */
-
-::selection {
-  background: #16a34a;
-  color: #ffffff;
-}
-
-::-moz-selection {
-  background: #16a34a;
-  color: #ffffff;
-}
-
-.my-text::selection {
-  background: #10b981;
-  color: #ffffff;
-}
-.my-text::-moz-selection {
-  background: #10b981;
-  color: #ffffff;
-}
-
-input::selection,
-textarea::selection {
-  background: #16a34a;
-  color: #ffffff;
-}
-input::-moz-selection,
-textarea::-moz-selection {
-  background: #16a34a;
-  color: #ffffff;
-}
-
-/* ==================================== SELECTION ====================================  */
 
 
