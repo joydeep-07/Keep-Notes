@@ -1,7 +1,10 @@
 import React from "react";
 import { data } from "../assets/Data";
+import { useNavigate } from "react-router-dom";
 
 const Notes = () => {
+  const navigate = useNavigate();
+
   return (
     <div
       className="
@@ -17,12 +20,15 @@ const Notes = () => {
       {data.map((item) => (
         <div
           key={item.id}
+          onClick={() => navigate(`/note/detail/${item.id}`)}
           className="
             bg-[var(--bg-secondary)]/40
             border border-[var(--border-light)]/70
             rounded-xl
             p-4
             cursor-pointer
+            hover:shadow-md
+            transition
           "
         >
           <h2
