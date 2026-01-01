@@ -1,5 +1,16 @@
 import React from "react";
-import { motion, AnimatePresence, easeInOut, easeIn, easeOut } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  easeInOut,
+  easeIn,
+  easeOut,
+} from "framer-motion";
+import { IoColorPalette } from "react-icons/io5";
+import { Brush, Redo, Redo2, Text, Undo, Undo2 } from "lucide-react";
+import { MdFormatColorText } from "react-icons/md";
+import { MdOutlineColorLens } from "react-icons/md";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const backdrop = {
   hidden: { opacity: 0 },
@@ -20,7 +31,6 @@ const modal = {
     transition: {
       duration: 0.18,
       ease: easeIn,
-    
     },
   },
   exit: {
@@ -30,7 +40,6 @@ const modal = {
     transition: {
       duration: 0.18,
       ease: easeOut,
-      
     },
   },
 };
@@ -64,7 +73,7 @@ const NoteDetail = ({ note, onClose }) => {
               border
               border-[var(--border-light)]
               p-6
-              pb-20
+              pb-15
               will-change-transform
             "
             variants={modal}
@@ -77,14 +86,38 @@ const NoteDetail = ({ note, onClose }) => {
               {note.note}
             </p>
 
-            <span className="block mt-6 text-xs text-[var(--text-muted)]">
+            <span className="block mt-10 text-xs text-[var(--text-muted)]">
               {note.date}
             </span>
 
-            <div className="absolute bottom-0 left-0 w-full p-4 border-t border-[var(--border-light)] bg-[var(--bg-secondary)] rounded-b-xl">
-              <button className="text-sm text-[var(--accent-primary)]">
-                Edit Note
-              </button>
+            <div className="absolute bottom-0 left-0 w-full py-1.5 px-5 border-t border-[var(--border-light)] bg-[var(--bg-secondary)] rounded-b-xl">
+              <div className="flex items-center justify-between gap-4">
+                {/* Left tools */}
+                <div className="flex items-center gap-2">
+                  {[
+                    { Icon: Text, label: "Text" },
+                    { Icon: MdFormatColorText, label: "Text" },
+                    // { Icon: MdOutlineColorLens, label: "Text" },
+                    { Icon: AiOutlineDelete, label: "Text" },
+                  ].map(({ Icon, label }) => (
+                    <button
+                      key={label}
+                      title={label}
+                      className=" p-2 rounded-lg text-[var(--text-main)]/80 hover:text-[var(--accent-primary)] active:scale-95 transition"
+                    >
+                      <Icon size={16} />
+                    </button>
+                  ))}
+                </div>
+
+                {/* Close */}
+                <button
+                  onClick={onClose}
+                  className=" px-3 text-xs font-medium rounded-lg text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:bg-[var(--bg-hover)] transition"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </motion.div>
         </motion.div>
