@@ -22,7 +22,7 @@ const Notes = () => {
             border border-[var(--border-light)]/70
             rounded-xl
             p-4
-            
+            cursor-pointer
           "
         >
           <h2
