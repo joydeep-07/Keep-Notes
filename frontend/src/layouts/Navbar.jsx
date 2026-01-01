@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ThemeToggle from "../components/ThemeToggle";
 import SearchButton from "../components/SearchButton";
 import icon from "../assets/images/icon.png";
-import {Link, useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from "react-router-dom";
 import { LogIn } from "lucide-react";
 import UserDetail from "../components/UserDetail";
 
@@ -21,7 +21,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-100 transition-all duration-300 ${
         isScrolled
           ? "bg-[var(--bg-secondary)] backdrop-blur-md border-b border-[var(--border-light)] shadow-lg"
           : "bg-transparent"
@@ -49,8 +49,6 @@ const Navbar = () => {
             <SearchButton />
             <ThemeToggle />
             <UserDetail />
-
-            {/* <Link to={"/register"}>Register</Link> */}
           </div>
         </div>
       </div>
