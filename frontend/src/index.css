@@ -25,7 +25,7 @@ body{
   --accent-secondary: #1e40af; /* hover / focus */
 
   /* Borders */
-  --border-light: #dbe3ee;
+  --border-light: #ccd2d9;
 }
 
 /* DARK MODE */
@@ -49,7 +49,7 @@ body{
   --accent-secondary: #3b82f6;
 
   /* Borders – subtle separation */
-  --border-light: #2a2a2a;
+  --border-light: #2c2c2c;
 }
 
 

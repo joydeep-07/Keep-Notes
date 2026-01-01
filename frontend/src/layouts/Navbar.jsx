@@ -34,7 +34,7 @@ const Navbar = () => {
             <div className="flex">
               {/* <img className="h-13.5" src={icon} alt="" />  */}
               <div className="flex flex-col">
-                <h1 className="heading text-3xl text-[var(--accent-primary)]">
+                <h1 className="heading tracking-wide uppercase text-2xl text-[var(--text-main)]/70">
                   Keep Notes
                 </h1>
                 <p className="text-xs text-secondary ">
@@ -48,7 +48,7 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             <SearchButton />
             <ThemeToggle />
-            <UserDetail/>
+            <UserDetail />
 
             {/* <Link to={"/register"}>Register</Link> */}
           </div>
