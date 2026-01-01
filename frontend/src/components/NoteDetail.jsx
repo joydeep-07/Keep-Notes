@@ -10,6 +10,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import axios from "axios";
 import { NOTES_ENDPOINTS } from "../utils/endpoint";
 import Toolbar from "./Toolbar";
+import { formatDate } from "../utils/dateFormat";
 
 const backdrop = {
   hidden: { opacity: 0 },
@@ -372,17 +373,12 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
             {/* Footer */}
             <div className="border-t border-[var(--border-light)] rounded-b-xl p-4 bg-[var(--bg-secondary)]">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-xs text-[var(--text-muted)]">
-                  <span>
-                    Created: {new Date(note.createdAt).toLocaleDateString()}
-                  </span>
-                  {note.updatedAt && (
-                    <>
-                      <span>•</span>
-                      <span>
-                        Updated: {new Date(note.updatedAt).toLocaleDateString()}
-                      </span>
-                    </>
+                <div className="flex items-center gap-2 text-xs text-[var(--text-secondary)]">
+                  {new Date(note.createdAt).getTime() ===
+                  new Date(note.updatedAt).getTime() ? (
+                    <span>Created {formatDate(note.createdAt)}</span>
+                  ) : (
+                    <span>Last Updated {formatDate(note.updatedAt)}</span>
                   )}
                 </div>
 
