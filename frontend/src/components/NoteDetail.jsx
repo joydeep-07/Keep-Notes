@@ -32,6 +32,7 @@ import {
 import { AiOutlineDelete } from "react-icons/ai";
 import axios from "axios";
 import { NOTES_ENDPOINTS } from "../utils/endpoint";
+import Toolbar from "./Toolbar";
 
 const backdrop = {
   hidden: { opacity: 0 },
@@ -296,7 +297,6 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
             "
             variants={modal}
           >
-            
             {/* Header */}
             <div className="flex items-center justify-between  p-6 border-b border-[var(--border-light)]">
               <input
@@ -318,8 +318,6 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
               />
 
               <div className="flex items-center gap-2">
-               
-
                 <button
                   onClick={handleDelete}
                   className="p-2 rounded-lg text-red-500 hover:bg-red-500/10 active:scale-95 transition"
@@ -330,153 +328,42 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
               </div>
             </div>
 
-            {/* Toolbar */}
-            <div className="flex items-center gap-1 p-3 border-b border-[var(--border-light)] flex-wrap bg-[var(--bg-tertiary)]">
-              {/* Undo/Redo */}
-              <button
-                onClick={handleUndo}
-                className="p-2 rounded hover:bg-[var(--bg-hover)]"
-                title="Undo"
-              >
-                <Undo size={16} />
-              </button>
-              <button
-                onClick={handleRedo}
-                className="p-2 rounded hover:bg-[var(--bg-hover)]"
-                title="Redo"
-              >
-                <Redo size={16} />
-              </button>
-
-              <div className="w-px h-6 bg-[var(--border-light)] mx-1"></div>
-
-              {/* Font Size */}
-              <select
-                value={fontSize}
-                onChange={(e) => {
-                  setFontSize(e.target.value);
-                  formatText(
-                    "fontSize",
-                    e.target.value === "small"
-                      ? "2"
-                      : e.target.value === "large"
-                      ? "5"
-                      : "3"
-                  );
-                }}
-                className="px-2 py-1 bg-[var(--bg-secondary)] border border-[var(--border-light)] rounded text-xs"
-              >
-                <option value="small">Small</option>
-                <option value="normal">Normal</option>
-                <option value="large">Large</option>
-              </select>
-
-              <div className="w-px h-6 bg-[var(--border-light)] mx-1"></div>
-
-              {/* Bold, Italic, Underline */}
-              <button
-                onClick={() => formatText("bold")}
-                className={`p-2 rounded ${
-                  isBold
-                    ? "bg-[var(--accent-primary)]/20 text-[var(--accent-primary)]"
-                    : "hover:bg-[var(--bg-hover)]"
-                }`}
-                title="Bold"
-              >
-                <Bold size={16} />
-              </button>
-              <button
-                onClick={() => formatText("italic")}
-                className={`p-2 rounded ${
-                  isItalic
-                    ? "bg-[var(--accent-primary)]/20 text-[var(--accent-primary)]"
-                    : "hover:bg-[var(--bg-hover)]"
-                }`}
-                title="Italic"
-              >
-                <Italic size={16} />
-              </button>
-              <button
-                onClick={() => formatText("underline")}
-                className={`p-2 rounded ${
-                  isUnderline
-                    ? "bg-[var(--accent-primary)]/20 text-[var(--accent-primary)]"
-                    : "hover:bg-[var(--bg-hover)]"
-                }`}
-                title="Underline"
-              >
-                <Underline size={16} />
-              </button>
-
-              <div className="w-px h-6 bg-[var(--border-light)] mx-1"></div>
-
-              {/* Text Color */}
-              <div className="flex items-center gap-1">
-                <MdFormatColorText
-                  size={16}
-                  className="text-[var(--text-muted)]"
-                />
-
-                <input
-                  type="color"
-                  value={textColor}
-                  onChange={(e) => {
-                    setTextColor(e.target.value);
-                    formatText("foreColor", e.target.value);
-                  }}
-                  className="w-8 h-8 cursor-pointer bg-transparent border-none"
-                  title="Text Color"
-                />
-              </div>
-
-              <div className="w-px h-6 bg-[var(--border-light)] mx-1"></div>
-
-              {/* Alignment */}
-              <button
-                onClick={() => {
-                  setTextAlign("left");
-                  formatText("justifyLeft");
-                }}
-                className={`p-2 rounded ${
-                  textAlign === "left"
-                    ? "bg-[var(--accent-primary)]/20 text-[var(--accent-primary)]"
-                    : "hover:bg-[var(--bg-hover)]"
-                }`}
-                title="Align Left"
-              >
-                <AlignLeft size={16} />
-              </button>
-              <button
-                onClick={() => {
-                  setTextAlign("center");
-                  formatText("justifyCenter");
-                }}
-                className={`p-2 rounded ${
-                  textAlign === "center"
-                    ? "bg-[var(--accent-primary)]/20 text-[var(--accent-primary)]"
-                    : "hover:bg-[var(--bg-hover)]"
-                }`}
-                title="Align Center"
-              >
-                <AlignCenter size={16} />
-              </button>
-              <button
-                onClick={() => {
-                  setTextAlign("right");
-                  formatText("justifyRight");
-                }}
-                className={`p-2 rounded ${
-                  textAlign === "right"
-                    ? "bg-[var(--accent-primary)]/20 text-[var(--accent-primary)]"
-                    : "hover:bg-[var(--bg-hover)]"
-                }`}
-                title="Align Right"
-              >
-                <AlignRight size={16} />
-              </button>
-
-             
-            </div>
+            <Toolbar
+              onUndo={handleUndo}
+              onRedo={handleRedo}
+              onFormat={formatText}
+              onAlign={(align) => {
+                setTextAlign(align);
+                formatText(
+                  align === "left"
+                    ? "justifyLeft"
+                    : align === "center"
+                    ? "justifyCenter"
+                    : "justifyRight"
+                );
+              }}
+              onFontSizeChange={(e) => {
+                setFontSize(e.target.value);
+                formatText(
+                  "fontSize",
+                  e.target.value === "small"
+                    ? "2"
+                    : e.target.value === "large"
+                    ? "5"
+                    : "3"
+                );
+              }}
+              onTextColorChange={(e) => {
+                setTextColor(e.target.value);
+                formatText("foreColor", e.target.value);
+              }}
+              fontSize={fontSize}
+              textColor={textColor}
+              isBold={isBold}
+              isItalic={isItalic}
+              isUnderline={isUnderline}
+              textAlign={textAlign}
+            />
 
             {/* Editor */}
             <div className="flex-1 overflow-auto p-6">
@@ -559,14 +446,9 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
                         Saving...
                       </>
                     ) : (
-                      <>
-                      
-                        Save Changes
-                      </>
+                      <>Save Changes</>
                     )}
                   </button>
-
-                 
                 </div>
               </div>
             </div>

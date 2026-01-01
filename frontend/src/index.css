@@ -72,6 +72,11 @@ body{
   font: italic;
 }
 
+button {
+  cursor: pointer;
+}
+
+
 .text-secondary{
   color: var(--text-secondary);
 }
