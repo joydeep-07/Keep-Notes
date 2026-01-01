@@ -6,29 +6,6 @@ import {
   easeIn,
   easeOut,
 } from "framer-motion";
-import { MdFormatColorText } from "react-icons/md";
-import {
-  Bold,
-  Italic,
-  Underline,
-  List,
-  ListOrdered,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
-  Palette,
-  Save,
-  X,
-  Type,
-  Minus,
-  Link,
-  Image,
-  Code,
-  Quote,
-  Undo,
-  Redo,
-  Text,
-} from "lucide-react";
 import { AiOutlineDelete } from "react-icons/ai";
 import axios from "axios";
 import { NOTES_ENDPOINTS } from "../utils/endpoint";
@@ -393,7 +370,7 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
             </div>
 
             {/* Footer */}
-            <div className="border-t border-[var(--border-light)] p-4 bg-[var(--bg-secondary)]">
+            <div className="border-t border-[var(--border-light)] rounded-b-xl p-4 bg-[var(--bg-secondary)]">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs text-[var(--text-muted)]">
                   <span>
