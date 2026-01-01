@@ -78,9 +78,15 @@ const NoteDetail = ({ note, onClose }) => {
             "
             variants={modal}
           >
-            <h1 className="text-2xl heading text-[var(--accent-primary)] mb-4">
-              {note.title}
-            </h1>
+            <div className="flex items-center justify-between">
+              <h1 className="text-2xl heading text-[var(--accent-primary)] mb-4">
+                {note.title}
+              </h1>
+
+              <button className=" p-2 rounded-lg text-[var(--text-main)]/80 hover:text-[var(--accent-primary)] active:scale-95 transition">
+                <AiOutlineDelete size={20} />
+              </button>
+            </div>
 
             <p className="text-sm text-justify text-[var(--text-secondary)] leading-relaxed">
               {note.note}
@@ -90,30 +96,14 @@ const NoteDetail = ({ note, onClose }) => {
               {note.date}
             </span>
 
-            <div className="absolute bottom-0 left-0 w-full py-1.5 px-5 border-t border-[var(--border-light)] bg-[var(--bg-secondary)] rounded-b-xl">
-              <div className="flex items-center justify-between gap-4">
+            <div className="absolute bottom-0 left-0 w-full py-1.5 px-5 bg-[var(--bg-secondary)] rounded-b-xl">
+              <div className="flex items-center justify-end gap-4">
                 {/* Left tools */}
-                <div className="flex items-center gap-2">
-                  {[
-                    { Icon: Text, label: "Text" },
-                    { Icon: MdFormatColorText, label: "Text" },
-                    // { Icon: MdOutlineColorLens, label: "Text" },
-                    { Icon: AiOutlineDelete, label: "Text" },
-                  ].map(({ Icon, label }) => (
-                    <button
-                      key={label}
-                      title={label}
-                      className=" p-2 rounded-lg text-[var(--text-main)]/80 hover:text-[var(--accent-primary)] active:scale-95 transition"
-                    >
-                      <Icon size={16} />
-                    </button>
-                  ))}
-                </div>
 
                 {/* Close */}
                 <button
                   onClick={onClose}
-                  className=" px-3 text-xs font-medium rounded-lg text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:bg-[var(--bg-hover)] transition"
+                  className=" px-3 py-2 text-xs font-medium rounded-lg text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:bg-[var(--bg-hover)] transition"
                 >
                   Close
                 </button>

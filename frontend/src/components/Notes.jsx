@@ -140,9 +140,7 @@ const Notes = () => {
   return (
     <>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold heading text-[var(--text-primary)]">
-          My Notes ({notes.length})
-        </h1>
+       
         <button
           onClick={handleRefresh}
           className="px-4 py-2 text-sm bg-[var(--bg-secondary)] hover:bg-[var(--bg-hover)] rounded-lg transition"
