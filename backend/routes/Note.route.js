@@ -10,7 +10,7 @@ const {
   deleteNote,
 } = require("../controllers/Note.controller");
 
-router.use(AuthMiddleware); // 🔐 protect all routes
+router.use(AuthMiddleware); 
 
 router.post("/", createNote);
 router.get("/", getNotes);
