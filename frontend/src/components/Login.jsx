@@ -3,11 +3,14 @@ import React, { useState } from "react";
 import { FiUser, FiLock } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../slices/authSlice";
 import Google from "./Google";
 import { AUTH_ENDPOINTS } from "../utils/endpoint";
 
 const Login = ({ onSwitch }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -17,35 +20,26 @@ const Login = ({ onSwitch }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  /* ================= HANDLE CHANGE ================= */
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  /* ================= HANDLE LOGIN ================= */
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
-    const { email, password } = formData;
-
-    if (!email || !password) {
-      return setError("Email and password are required");
-    }
-
     try {
       setLoading(true);
 
-      const res = await axios.post(AUTH_ENDPOINTS.LOGIN, {
-        email,
-        password,
-      });
+      const res = await axios.post(AUTH_ENDPOINTS.LOGIN, formData);
 
-      // ✅ Save token
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      dispatch(
+        loginSuccess({
+          user: res.data.user,
+          token: res.data.token,
+        })
+      );
 
-      // Redirect to notes page (change if needed)
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
@@ -69,29 +63,41 @@ const Login = ({ onSwitch }) => {
       <form onSubmit={handleLogin}>
         {/* Email */}
         <div className="relative mb-4">
-          <FiUser className="absolute top-1/2 left-4 -translate-y-1/2" />
+          <FiUser
+            className="absolute top-1/2 left-4 -translate-y-1/2"
+            style={{ color: "var(--text-main)" }}
+          />
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             placeholder="Enter your email"
-            className="w-full pl-12 pr-4 py-3 rounded-full outline-none"
-            style={{ backgroundColor: "var(--bg-secondary)" }}
+            className="w-full pl-12 pr-4 py-3 rounded-full outline-none transition"
+            style={{
+              backgroundColor: "var(--bg-secondary)",
+              color: "var(--text-main)",
+            }}
           />
         </div>
 
         {/* Password */}
         <div className="relative mb-4">
-          <FiLock className="absolute top-1/2 left-4 -translate-y-1/2" />
+          <FiLock
+            className="absolute top-1/2 left-4 -translate-y-1/2"
+            style={{ color: "var(--text-main)" }}
+          />
           <input
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
             placeholder="Password"
-            className="w-full pl-12 pr-4 py-3 rounded-full outline-none"
-            style={{ backgroundColor: "var(--bg-secondary)" }}
+            className="w-full pl-12 pr-4 py-3 rounded-full outline-none transition"
+            style={{
+              backgroundColor: "var(--bg-secondary)",
+              color: "var(--text-main)",
+            }}
           />
         </div>
 
@@ -117,16 +123,27 @@ const Login = ({ onSwitch }) => {
 
       {/* Divider */}
       <div className="flex items-center my-4">
-        <hr className="flex-grow" />
-        <span className="px-2 text-sm">OR</span>
-        <hr className="flex-grow" />
+        <hr
+          className="flex-grow"
+          style={{ borderColor: "var(--border-light)" }}
+        />
+        <span
+          className="px-2 text-sm"
+          style={{ color: "var(--text-secondary)" }}
+        >
+          OR
+        </span>
+        <hr
+          className="flex-grow"
+          style={{ borderColor: "var(--border-light)" }}
+        />
       </div>
 
       <Google />
 
-      {/* Footer Links */}
+      {/* Footer */}
       <div className="flex justify-between items-center text-sm mt-3">
-        <span>
+        <span style={{ color: "var(--text-secondary)" }}>
           Don’t have an account?
           <span
             onClick={onSwitch}
@@ -137,7 +154,11 @@ const Login = ({ onSwitch }) => {
           </span>
         </span>
 
-        <Link to="/forgot/password" className="hover:underline">
+        <Link
+          to="/forgot/password"
+          className="hover:underline"
+          style={{ color: "var(--text-secondary)" }}
+        >
           Forgot password?
         </Link>
       </div>

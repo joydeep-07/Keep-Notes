@@ -1,32 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import NoNotes from "../components/NoNotes";
 import Notes from "../components/Notes";
 import AddNote from "../components/AddNote";
 import NotLoggedIn from "../components/NotLoggedIn";
-import {data} from '../assets/Data'
 
 const Home = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); 
-  const [isDataAvailable, setIsDataAvailable] = useState(false);
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
-  if (!isLoggedIn) {
+  if (!isAuthenticated) {
     return <NotLoggedIn />;
   }
 
-
   return (
     <>
-      <div className="flex justify-center items-center fixed z-70 w-full pt-20">
+      <div className="flex justify-center fixed w-full pt-20 z-50">
         <AddNote />
       </div>
 
-      {data.length == 0 ? (
-        <NoNotes />
-      ) : (
-        <div className="pt-40 z-10 px-20">
-          <Notes />
-        </div>
-      )}
+      <div className="pt-40 px-20">
+        <Notes />
+      </div>
     </>
   );
 };
