@@ -36,7 +36,7 @@ const Signup = () => {
 
   return (
     <div className="grid place-items-center pt-22 bg-[var(--bg-main)] overflow-hidden">
-      <div className="relative w-2xl max-w-full h-[520px] overflow-hidden">
+      <div className="relative w-7xl max-w-full h-[520px] overflow-hidden">
         <AnimatePresence mode="wait" custom={direction}>
           {isLogin ? (
             <motion.div

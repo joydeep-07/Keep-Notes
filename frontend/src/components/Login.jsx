@@ -49,7 +49,7 @@ const Login = ({ onSwitch }) => {
   };
 
   return (
-    <div className="bg-transparent flex flex-col w-2xl">
+    <div className="bg-transparent flex flex-col w-4xl">
       {/* Header */}
       <div className="text-center mb-6">
         <h2
@@ -123,20 +123,9 @@ const Login = ({ onSwitch }) => {
 
       {/* Divider */}
       <div className="flex items-center my-4">
-        <hr
-          className="flex-grow"
-          style={{ borderColor: "var(--border-light)" }}
-        />
-        <span
-          className="px-2 text-sm"
-          style={{ color: "var(--text-secondary)" }}
-        >
-          OR
-        </span>
-        <hr
-          className="flex-grow"
-          style={{ borderColor: "var(--border-light)" }}
-        />
+        <hr className="flex-grow text-[var(--text-secondary)]/30 " />
+        <span className="px-2 text-sm">OR</span>
+        <hr className="flex-grow text-[var(--text-secondary)]/30" />
       </div>
 
       <Google />

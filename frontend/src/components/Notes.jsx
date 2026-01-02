@@ -193,34 +193,10 @@ const Notes = () => {
             </p>
 
             {/* Footer with date */}
-            <div className="mt-4 flex justify-between items-center">
+            <div className="mt-5 flex justify-between items-center">
               <span className="text-[10px] text-[var(--text-secondary)]">
                 {formatDate(note.createdAt)}
               </span>
-
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (
-                    window.confirm("Are you sure you want to delete this note?")
-                  ) {
-                    handleDeleteNote(note._id);
-                  }
-                }}
-                className="
-                  text-xs 
-                  text-red-500 
-                  opacity-0 
-                  group-hover:opacity-100 
-                  hover:text-red-600 
-                  transition-opacity
-                  px-2 py-1
-                  rounded
-                  hover:bg-red-50
-                "
-              >
-                Delete
-              </button>
             </div>
           </div>
         ))}
