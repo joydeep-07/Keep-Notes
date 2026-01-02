@@ -1,16 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  motion,
-  AnimatePresence,
-  easeInOut,
-  easeIn,
-  easeOut,
-} from "framer-motion";
+import { motion, AnimatePresence, easeIn, easeOut } from "framer-motion";
 import { AiOutlineDelete } from "react-icons/ai";
 import axios from "axios";
-import { NOTES_ENDPOINTS } from "../utils/endpoint";
+
 import Toolbar from "./Toolbar";
+import { NOTES_ENDPOINTS } from "../utils/endpoint";
 import { formatDate } from "../utils/dateFormat";
+
+import {
+  formatText,
+  updateFormatStates,
+  handleUndo,
+  handleRedo,
+  saveHistory,
+} from "../utils/toolbarFunction";
+
+/* ================= ANIMATION ================= */
 
 const backdrop = {
   hidden: { opacity: 0 },
@@ -19,39 +24,32 @@ const backdrop = {
 };
 
 const modal = {
-  hidden: {
-    opacity: 0,
-    y: 20,
-    scale: 0.98,
-  },
+  hidden: { opacity: 0, y: 20, scale: 0.98 },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: {
-      duration: 0.18,
-      ease: easeIn,
-    },
+    transition: { duration: 0.18, ease: easeIn },
   },
   exit: {
     opacity: 0,
     y: 20,
     scale: 0.98,
-    transition: {
-      duration: 0.18,
-      ease: easeOut,
-    },
+    transition: { duration: 0.18, ease: easeOut },
   },
 };
+
+/* ================= COMPONENT ================= */
 
 const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.note);
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
+
+  // Toolbar states
   const [fontSize, setFontSize] = useState("normal");
   const [textColor, setTextColor] = useState("#000000");
-  const [bgColor, setBgColor] = useState("#ffffff");
   const [textAlign, setTextAlign] = useState("left");
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
@@ -63,133 +61,70 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
   const historyRef = useRef([]);
   const historyIndexRef = useRef(-1);
 
-  // Check for changes
+  /* ================= CHANGE DETECTION ================= */
+
   useEffect(() => {
-    const hasTitleChanged = title !== note.title;
-    const hasContentChanged = content !== note.note;
-    setHasChanges(hasTitleChanged || hasContentChanged);
+    setHasChanges(title !== note.title || content !== note.note);
   }, [title, content, note]);
 
-  // Save history state
-  const saveHistory = () => {
-    if (editorRef.current) {
-      const currentContent = editorRef.current.innerHTML;
-      // Remove old future history
-      historyRef.current = historyRef.current.slice(
-        0,
-        historyIndexRef.current + 1
-      );
-      historyRef.current.push(currentContent);
-      historyIndexRef.current = historyRef.current.length - 1;
-    }
-  };
+  /* ================= INIT EDITOR ================= */
 
-  // Initialize editor content and history
   useEffect(() => {
     if (editorRef.current) {
-      editorRef.current.innerHTML = content;
-      saveHistory();
+      editorRef.current.innerHTML = note.note;
+      saveHistory(editorRef, historyRef, historyIndexRef);
     }
-  }, []);
+  }, [note]);
 
-  // Formatting functions
-  const formatText = (command, value = null) => {
-    if (editorRef.current) {
-      // Save selection
-      const selection = window.getSelection();
-      const range = selection.getRangeAt(0);
+  /* ================= FORMAT HELPERS ================= */
 
-      // Save current state before formatting
-      saveHistory();
+  const syncFormatStates = () =>
+    updateFormatStates({
+      setIsBold,
+      setIsItalic,
+      setIsUnderline,
+      setTextAlign,
+      setIsBulletList,
+      setIsNumberedList,
+    });
 
-      // Execute format command
-      document.execCommand(command, false, value);
+  const applyFormat = (command, value = null) =>
+    formatText(command, {
+      editorRef,
+      value,
+      setContent,
+      updateFormatStates: syncFormatStates,
+      historyRef,
+      historyIndexRef,
+    });
 
-      // Update local states
-      updateFormatStates();
+  const undo = () =>
+    handleUndo(editorRef, historyRef, historyIndexRef, setContent);
 
-      // Update content state
-      setContent(editorRef.current.innerHTML);
+  const redo = () =>
+    handleRedo(editorRef, historyRef, historyIndexRef, setContent);
 
-      // Restore focus
-      editorRef.current.focus();
-    }
-  };
-
-  const updateFormatStates = () => {
-    if (editorRef.current) {
-      const selection = window.getSelection();
-      if (selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0);
-        const parentElement = range.commonAncestorContainer.parentElement;
-
-        // Check bold
-        setIsBold(document.queryCommandState("bold"));
-
-        // Check italic
-        setIsItalic(document.queryCommandState("italic"));
-
-        // Check underline
-        setIsUnderline(document.queryCommandState("underline"));
-
-        // Check alignment
-        const align = parentElement.style.textAlign || "left";
-        setTextAlign(align);
-
-        // Check lists
-        const tagName = parentElement.tagName.toLowerCase();
-        const isLi = tagName === "li";
-        const parentTag = isLi
-          ? parentElement.parentElement.tagName.toLowerCase()
-          : "";
-        setIsBulletList(parentTag === "ul");
-        setIsNumberedList(parentTag === "ol");
-      }
-    }
-  };
+  /* ================= EDITOR INPUT ================= */
 
   const handleEditorInput = () => {
-    if (editorRef.current) {
-      const newContent = editorRef.current.innerHTML;
-      setContent(newContent);
-      saveHistory();
-      updateFormatStates();
-    }
+    if (!editorRef.current) return;
+
+    setContent(editorRef.current.innerHTML);
+    saveHistory(editorRef, historyRef, historyIndexRef);
+    syncFormatStates();
   };
 
-  const handleUndo = () => {
-    if (historyIndexRef.current > 0) {
-      historyIndexRef.current--;
-      const previousContent = historyRef.current[historyIndexRef.current];
-      if (editorRef.current) {
-        editorRef.current.innerHTML = previousContent;
-        setContent(previousContent);
-      }
-    }
-  };
-
-  const handleRedo = () => {
-    if (historyIndexRef.current < historyRef.current.length - 1) {
-      historyIndexRef.current++;
-      const nextContent = historyRef.current[historyIndexRef.current];
-      if (editorRef.current) {
-        editorRef.current.innerHTML = nextContent;
-        setContent(nextContent);
-      }
-    }
-  };
+  /* ================= API HANDLERS ================= */
 
   const handleSave = async () => {
     if (!token || !hasChanges) return;
 
     try {
       setIsSaving(true);
-      const response = await axios.put(
+
+      const res = await axios.put(
         NOTES_ENDPOINTS.UPDATE(note._id),
-        {
-          title,
-          note: content,
-        },
+        { title, note: content },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -198,34 +133,22 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
         }
       );
 
-      if (onUpdate) {
-        onUpdate(response.data);
-      }
-
-      // Reset change detection
+      onUpdate?.(res.data);
       setHasChanges(false);
-    } catch (error) {
-      console.error("Error updating note:", error);
-      alert(error.response?.data?.message || "Failed to save changes");
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to save changes");
     } finally {
       setIsSaving(false);
     }
   };
 
-  const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this note?")) {
-      try {
-        if (onDelete) {
-          await onDelete(note._id);
-        }
-        onClose();
-      } catch (error) {
-        console.error("Error deleting note:", error);
-      }
-    }
+  const handleDeleteNote = async () => {
+    if (!window.confirm("Are you sure you want to delete this note?")) return;
+    await onDelete(note._id);
+    onClose();
   };
 
-
+  /* ================= RENDER ================= */
 
   return (
     <AnimatePresence>
@@ -245,71 +168,43 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
 
           {/* Modal */}
           <motion.div
-            className="
-              relative
-              z-10
-              w-full
-              max-w-5xl
-              min-h-[75vh]
-              max-h-[800px]
-              bg-[var(--bg-secondary)]
-              rounded-xl
-              border
-              border-[var(--border-light)]
-              flex
-              flex-col
-              will-change-transform
-            "
+            className="relative z-10 w-full max-w-5xl min-h-[75vh] max-h-[800px] bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-light)] flex flex-col"
             variants={modal}
           >
             {/* Header */}
-            <div className="flex items-center justify-between  p-6 border-b border-[var(--border-light)]">
+            <div className="flex items-center justify-between p-6 border-b border-[var(--border-light)]">
               <input
-                type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="
-                  text-2xl
-                  heading
-                  text-[var(--accent-primary)]
-                  bg-transparent
-                  border-none
-                  outline-none
-                  w-full
-                  pr-4
-                  placeholder-[var(--text-muted)]
-                "
                 placeholder="Note Title"
+                className="text-2xl heading text-[var(--text-main)]/95 bg-transparent outline-none w-full pr-4"
               />
 
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={handleDelete}
-                  className="p-2 rounded-lg text-red-500 hover:bg-red-500/10 active:scale-95 transition"
-                  title="Delete note"
-                >
-                  <AiOutlineDelete size={20} />
-                </button>
-              </div>
+              <button
+                onClick={handleDeleteNote}
+                className="p-2 rounded-lg text-red-500 hover:bg-red-500/10"
+              >
+                <AiOutlineDelete size={20} />
+              </button>
             </div>
 
+            {/* Toolbar */}
             <Toolbar
-              onUndo={handleUndo}
-              onRedo={handleRedo}
-              onFormat={formatText}
-              onAlign={(align) => {
-                setTextAlign(align);
-                formatText(
+              onUndo={undo}
+              onRedo={redo}
+              onFormat={applyFormat}
+              onAlign={(align) =>
+                applyFormat(
                   align === "left"
                     ? "justifyLeft"
                     : align === "center"
                     ? "justifyCenter"
                     : "justifyRight"
-                );
-              }}
+                )
+              }
               onFontSizeChange={(e) => {
                 setFontSize(e.target.value);
-                formatText(
+                applyFormat(
                   "fontSize",
                   e.target.value === "small"
                     ? "2"
@@ -320,7 +215,7 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
               }}
               onTextColorChange={(e) => {
                 setTextColor(e.target.value);
-                formatText("foreColor", e.target.value);
+                applyFormat("foreColor", e.target.value);
               }}
               fontSize={fontSize}
               textColor={textColor}
@@ -336,16 +231,9 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
                 ref={editorRef}
                 contentEditable
                 onInput={handleEditorInput}
-                onKeyUp={updateFormatStates}
-                onClick={updateFormatStates}
-                className="
-                  min-h-full
-                  outline-none
-                  text-[var(--text-secondary)]
-                  leading-relaxed
-                  whitespace-pre-wrap
-                  word-break: break-word
-                "
+                onClick={syncFormatStates}
+                onKeyUp={syncFormatStates}
+                className="min-h-full outline-none text-[var(--text-secondary)] leading-relaxed whitespace-pre-wrap"
                 style={{
                   fontSize:
                     fontSize === "small"
@@ -358,58 +246,25 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
             </div>
 
             {/* Footer */}
-            <div className="border-t border-[var(--border-light)] rounded-b-xl p-4 bg-[var(--bg-secondary)]">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-xs text-[var(--text-secondary)]">
-                  {new Date(note.createdAt).getTime() ===
-                  new Date(note.updatedAt).getTime() ? (
-                    <span>Created {formatDate(note.createdAt)}</span>
-                  ) : (
-                    <span>Last Updated {formatDate(note.updatedAt)}</span>
-                  )}
-                </div>
+            <div className="border-t border-[var(--border-light)] p-4">
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-[var(--text-secondary)]">
+                  {note.createdAt === note.updatedAt
+                    ? `Created ${formatDate(note.createdAt)}`
+                    : `Last Updated ${formatDate(note.updatedAt)}`}
+                </span>
 
-                <div className="flex items-center gap-3">
-                  {hasChanges && (
-                    <button
-                      onClick={() => {
-                        setTitle(note.title);
-                        setContent(note.note);
-                        if (editorRef.current) {
-                          editorRef.current.innerHTML = note.note;
-                        }
-                        setHasChanges(false);
-                        historyRef.current = [note.note];
-                        historyIndexRef.current = 0;
-                      }}
-                      className="px-3 py-2 text-xs font-medium rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)] transition"
-                    >
-                      Discard
-                    </button>
-                  )}
-
-                  <button
-                    onClick={handleSave}
-                    disabled={!hasChanges || isSaving}
-                    className={`
-                      px-4 py-2 text-xs font-medium rounded-lg flex items-center gap-2 transition
-                      ${
-                        hasChanges
-                          ? "bg-[var(--accent-primary)] text-white hover:opacity-90"
-                          : "bg-[var(--bg-tertiary)] text-[var(--text-muted)] cursor-not-allowed"
-                      }
-                    `}
-                  >
-                    {isSaving ? (
-                      <>
-                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white"></div>
-                        Saving...
-                      </>
-                    ) : (
-                      <>Save Changes</>
-                    )}
-                  </button>
-                </div>
+                <button
+                  onClick={handleSave}
+                  disabled={!hasChanges || isSaving}
+                  className={`px-4 py-2 rounded-sm ${
+                    hasChanges
+                      ? "bg-[var(--accent-primary)] text-white"
+                      : "bg-[var(--bg-tertiary)] text-[var(--text-muted)]"
+                  }`}
+                >
+                  {isSaving ? "Saving..." : "Save Changes"}
+                </button>
               </div>
             </div>
           </motion.div>
