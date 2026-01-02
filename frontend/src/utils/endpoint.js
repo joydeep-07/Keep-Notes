@@ -1,4 +1,3 @@
-// Base URL (use env for production)
 const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 /* ================= AUTH ================= */
@@ -7,7 +6,7 @@ export const AUTH_ENDPOINTS = {
   LOGIN: `${BASE_URL}/api/users/login`,
 };
 
-/* ================= NOTES (future) ================= */
+/* ================= NOTES ================= */
 export const NOTES_ENDPOINTS = {
   CREATE: `${BASE_URL}/api/notes`,
   GET_ALL: `${BASE_URL}/api/notes`,
