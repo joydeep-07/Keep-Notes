@@ -225,20 +225,7 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
     }
   };
 
-  const handleInsertLink = () => {
-    const url = prompt("Enter the URL:");
-    if (url) {
-      const text = prompt("Enter the link text (optional):", url);
-      formatText("createLink", url);
-    }
-  };
 
-  const handleInsertImage = () => {
-    const url = prompt("Enter the image URL:");
-    if (url) {
-      formatText("insertImage", url);
-    }
-  };
 
   return (
     <AnimatePresence>
