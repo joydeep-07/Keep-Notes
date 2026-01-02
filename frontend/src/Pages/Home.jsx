@@ -5,7 +5,6 @@ import AddNote from "../components/AddNote";
 import Notes from "../components/Notes";
 import NotLoggedIn from "../components/NotLoggedIn";
 import { NOTES_ENDPOINTS } from "../utils/endpoint";
-import Hero from "../components/Hero";
 
 const Home = () => {
   const { isAuthenticated, token } = useSelector((state) => state.auth);
@@ -36,7 +35,7 @@ const Home = () => {
   }, [isAuthenticated, token]);
 
   if (!isAuthenticated) {
-    return <Hero />;
+    return <NotLoggedIn />;
   }
 
   return (

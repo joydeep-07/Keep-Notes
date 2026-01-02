@@ -66,10 +66,20 @@ body{
   font-display: swap;
 }
 
+@font-face {
+  font-family: "main";
+  src: url("./assets/fonts/Marcellus.ttf") format("truetype");
+  font-display: swap;
+}
+
 .heading {
   font-family: "Heading", sans-serif;
 
   font: italic;
+}
+
+.main-heading {
+  font-family: "main", sans-serif;
 }
 
 button {
@@ -83,6 +93,20 @@ button {
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  animation: marquee linear infinite;
 }
 
 
