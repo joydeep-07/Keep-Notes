@@ -181,13 +181,6 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
                 className="text-2xl heading text-[var(--text-main)]/95 bg-transparent outline-none w-full pr-4"
               />
 
-              <button
-                onClick={handleDeleteNote}
-                className="p-2 rounded-lg text-red-500 hover:bg-red-500/10"
-              >
-                <AiOutlineDelete size={20} />
-              </button>
-
               <Action
                 onDelete={() => handleDeleteNote(note._id)}
                 onDownload={() => downloadNoteAsPdf(title, editorRef.current)}
