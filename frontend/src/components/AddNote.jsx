@@ -142,9 +142,9 @@ const AddNote = () => {
 
               <button
                 onClick={handleAddNote}
-                className="w-full py-3 rounded-full bg-[var(--accent-primary)] text-white font-medium"
+                className="w-full py-1.5 text-sm rounded-sm bg-[var(--accent-primary)] text-white font-medium"
               >
-                ADD NOTE
+                Add Note
               </button>
             </div>
           </motion.div>
