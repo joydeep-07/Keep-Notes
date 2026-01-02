@@ -72,12 +72,12 @@ const AddNote = ({ setNotes }) => {
   return (
     <div
       ref={containerRef}
-      className="w-full border border-[var(--border-light)] rounded-lg max-w-xl mx-auto"
+      className="w-full bg-[var(--bg-secondary)]/30 border border-[var(--border-light)]/50 rounded-lg max-w-xl mx-auto"
     >
       {/* Trigger */}
       <motion.div
         onClick={() => setAdd((prev) => !prev)}
-        className="py-2 px-5 w-full flex justify-between items-center cursor-pointer rounded-xl transition-all"
+        className="py-2 px-5 w-full flex justify-between items-center cursor-pointer rounded-t-lg transition-all"
         layout
       >
         <div className="flex items-center gap-3">
@@ -105,7 +105,7 @@ const AddNote = ({ setNotes }) => {
             transition={{ duration: 0.4, ease: easeInOut }}
             className="overflow-hidden origin-top"
           >
-            <div className="bg-[var(--bg-main)] shadow-lg p-6 mt-3 rounded-xl rounded-t-none">
+            <div className=" shadow-lg p-6 mt-3 rounded-b-lg rounded-t-none">
               {/* Title */}
               <div className="mb-4">
                 <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
