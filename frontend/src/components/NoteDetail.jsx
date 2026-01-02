@@ -247,7 +247,7 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
             {/* Footer */}
             <div className="border-t border-[var(--border-light)] p-4">
               <div className="flex justify-between items-center text-xs">
-                <span className="text-[var(--text-secondary)]">
+                <span className="text-[var(--text-secondary)]/90">
                   {note.createdAt === note.updatedAt
                     ? `Created ${formatDate(note.createdAt)}`
                     : `Last Updated ${formatDate(note.updatedAt)}`}
@@ -258,8 +258,8 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
                   disabled={!hasChanges || isSaving}
                   className={`px-4 py-2 rounded-sm ${
                     hasChanges
-                      ? "bg-[var(--accent-primary)] text-white"
-                      : "bg-[var(--bg-tertiary)] text-[var(--text-muted)]"
+                      ? "bg-[var(--accent-primary)]/70 text-white"
+                      : "bg-[var(--bg-secondary)] border border-[var(--border-light)] text-[var(--text-secondary)]/70 cursor-not-allowed "
                   }`}
                 >
                   {isSaving ? "Saving..." : "Save Changes"}
