@@ -4,7 +4,7 @@ import { FaPenNib, FaChevronUp } from "react-icons/fa";
 import axios from "axios";
 import { NOTES_ENDPOINTS } from "../utils/endpoint";
 
-const AddNote = () => {
+const AddNote = ({ setNotes }) => {
   const [add, setAdd] = useState(false);
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
@@ -37,6 +37,7 @@ const AddNote = () => {
   }, [add]);
 
   /* ================= ADD NOTE ================= */
+  /* ================= ADD NOTE ================= */
   const handleAddNote = async () => {
     if (!title.trim() || !text.trim()) return;
 
@@ -47,7 +48,7 @@ const AddNote = () => {
     }
 
     try {
-      await axios.post(
+      const res = await axios.post(
         NOTES_ENDPOINTS.CREATE,
         { title, note: text },
         {
@@ -57,7 +58,9 @@ const AddNote = () => {
         }
       );
 
-      // Reset
+      // 🚀 REAL-TIME UPDATE (ONLY NEW LINE)
+      setNotes((prev) => [res.data, ...prev]);
+
       setTitle("");
       setText("");
       setAdd(false);

@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import { NOTES_ENDPOINTS } from "../utils/endpoint";
 import NoteDetail from "./NoteDetail";
 import NoNotes from "./NoNotes";
 import { stripHtml } from "../utils/textUtils";
 import { formatDate } from "../utils/dateFormat";
+import Loader from "./Loader";
 
-const Notes = () => {
-  const [notes, setNotes] = useState([]);
+const Notes = ({ notes, setNotes, loading }) => {
   const [selectedNote, setSelectedNote] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   // Get auth state from Redux
   const { token, isAuthenticated } = useSelector((state) => state.auth);
@@ -25,42 +23,7 @@ const Notes = () => {
       : plainText;
   };
 
-
-  // Fetch notes from API
-  const fetchNotes = async () => {
-    if (!isAuthenticated || !token) {
-      setError("User not authenticated");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setError(null);
-
-      const response = await axios.get(NOTES_ENDPOINTS.GET_ALL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setNotes(response.data);
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to fetch notes");
-      console.error("Error fetching notes:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Fetch notes on component mount
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchNotes();
-    }
-  }, [isAuthenticated]);
-
-  // Handle note deletion
+  // Handle note deletion (REAL-TIME)
   const handleDeleteNote = async (noteId) => {
     if (!isAuthenticated || !token) return;
 
@@ -71,10 +34,9 @@ const Notes = () => {
         },
       });
 
-      // Remove deleted note from state
-      setNotes(notes.filter((note) => note._id !== noteId));
+      // Update UI instantly
+      setNotes((prev) => prev.filter((note) => note._id !== noteId));
 
-      // Close detail modal if open
       if (selectedNote && selectedNote._id === noteId) {
         setSelectedNote(null);
       }
@@ -84,75 +46,24 @@ const Notes = () => {
     }
   };
 
-  // Handle note update
+  // Handle note update on real time
   const handleUpdateNote = (updatedNote) => {
-    setNotes(
-      notes.map((note) => (note._id === updatedNote._id ? updatedNote : note))
+    setNotes((prev) =>
+      prev.map((note) => (note._id === updatedNote._id ? updatedNote : note))
     );
     setSelectedNote(updatedNote);
   };
 
-  // Refresh notes
-  const handleRefresh = () => {
-    fetchNotes();
-  };
-
-  if (!isAuthenticated) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <p className="text-lg text-[var(--text-secondary)]">
-            Please log in to view your notes
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--accent-primary)] mx-auto"></div>
-          <p className="mt-4 text-[var(--text-secondary)]">Loading notes...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <p className="text-red-500 mb-4">{error}</p>
-          <button
-            onClick={fetchNotes}
-            className="px-4 py-2 bg-[var(--accent-primary)] text-white rounded-lg hover:opacity-90 transition"
-          >
-            Try Again
-          </button>
-        </div>
-      </div>
-    );
+    return <Loader/> ;
   }
 
   if (notes.length === 0) {
-    return (
-     <NoNotes/>
-    );
+    return <NoNotes />;
   }
 
   return (
     <>
-      <div className="flex justify-between items-center mb-6">
-        <button
-          onClick={handleRefresh}
-          className="px-4 py-2 text-sm bg-[var(--bg-secondary)] hover:bg-[var(--bg-hover)] rounded-lg transition"
-        >
-          Refresh
-        </button>
-      </div>
-
       <div
         className="
           grid 
