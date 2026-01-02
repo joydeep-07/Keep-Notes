@@ -4,6 +4,8 @@ import axios from "axios";
 import { NOTES_ENDPOINTS } from "../utils/endpoint";
 import NoteDetail from "./NoteDetail";
 import NoNotes from "./NoNotes";
+import { stripHtml } from "../utils/textUtils";
+import { formatDate } from "../utils/dateFormat";
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -14,12 +16,15 @@ const Notes = () => {
   // Get auth state from Redux
   const { token, isAuthenticated } = useSelector((state) => state.auth);
 
-  const getPreview = (text, wordLimit = 20) => {
-    const words = text.split(" ");
+  const getPreview = (html, wordLimit = 20) => {
+    const plainText = stripHtml(html);
+    const words = plainText.split(" ");
+
     return words.length > wordLimit
       ? words.slice(0, wordLimit).join(" ") + "..."
-      : text;
+      : plainText;
   };
+
 
   // Fetch notes from API
   const fetchNotes = async () => {
@@ -140,7 +145,6 @@ const Notes = () => {
   return (
     <>
       <div className="flex justify-between items-center mb-6">
-       
         <button
           onClick={handleRefresh}
           className="px-4 py-2 text-sm bg-[var(--bg-secondary)] hover:bg-[var(--bg-hover)] rounded-lg transition"
@@ -189,10 +193,11 @@ const Notes = () => {
             </p>
 
             {/* Footer with date */}
-            <div className="mt-4 pt-3 border-t border-[var(--border-light)]/50 flex justify-between items-center">
-              <span className="text-xs text-[var(--text-muted)]">
-                {new Date(note.createdAt).toLocaleDateString()}
+            <div className="mt-4 flex justify-between items-center">
+              <span className="text-[10px] text-[var(--text-secondary)]">
+                {formatDate(note.createdAt)}
               </span>
+
               <button
                 onClick={(e) => {
                   e.stopPropagation();
