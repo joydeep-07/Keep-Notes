@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, easeIn, easeOut } from "framer-motion";
 import { AiOutlineDelete } from "react-icons/ai";
 import axios from "axios";
-
+import { downloadNoteAsPdf } from "../utils/downloadPdf";
 import Toolbar from "./Toolbar";
 import { NOTES_ENDPOINTS } from "../utils/endpoint";
 import { formatDate } from "../utils/dateFormat";
@@ -14,6 +14,7 @@ import {
   handleRedo,
   saveHistory,
 } from "../utils/toolbarFunction";
+import Action from "./Action";
 
 /* ================= ANIMATION ================= */
 
@@ -142,11 +143,11 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
     }
   };
 
-  const handleDeleteNote = async () => {
-    if (!window.confirm("Are you sure you want to delete this note?")) return;
-    await onDelete(note._id);
-    onClose();
-  };
+ const handleDeleteNote = async () => {
+   await onDelete(note._id);
+   onClose();
+ };
+
 
   /* ================= RENDER ================= */
 
@@ -186,6 +187,11 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
               >
                 <AiOutlineDelete size={20} />
               </button>
+
+              <Action
+                onDelete={() => handleDeleteNote(note._id)}
+                onDownload={() => downloadNoteAsPdf(title, editorRef.current)}
+              />
             </div>
 
             {/* Toolbar */}
