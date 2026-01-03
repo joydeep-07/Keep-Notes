@@ -1,22 +1,15 @@
 import { ArrowUp } from "lucide-react";
-import Slide from "./Slide";
-import { FaUserLock, FaShieldAlt, FaStickyNote, FaEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Footer from "../layouts/Footer";
 
 const Hero = () => {
-  const features = [
-    { name: "User Authentication", icon: <FaUserLock /> },
-    { name: "Secure Data Access", icon: <FaShieldAlt /> },
-    { name: "Smart Notes", icon: <FaStickyNote /> },
-    { name: "Edit & Organize", icon: <FaEdit /> },
-  ];
+
 
   const navigate = useNavigate();
 
   return (
     <>
-      <div className="h-screen items-center justify-center pt-20">
+      <div className="items-center justify-center pt-20">
         <div className="flex flex-col justify-center items-center w-full px-4 sm:px-6 lg:px-8">
           <div className="main flex flex-col gap-5 w-full max-w-7xl mx-auto">
             <h2 className="text-xs sm:text-sm py-4 sm:py-5 px-3 sm:px-4 uppercase flex items-center gap-2 sm:gap-3 w-full">
@@ -81,10 +74,6 @@ const Hero = () => {
               </span>
             </button>
           </div>
-        </div>
-
-        <div className="py-6 sm:py-8 md:py-10">
-          <Slide items={features} speed={20} />
         </div>
       </div>
       <Footer />
