@@ -72,7 +72,7 @@ const AddNote = ({ setNotes }) => {
   return (
     <div
       ref={containerRef}
-      className="w-full bg-[var(--bg-secondary)]/30 border border-[var(--border-light)]/50 rounded-lg max-w-xl mx-auto"
+      className="w-full bg-[var(--bg-secondary)]/40 border border-[var(--border-light)]/50 rounded-lg max-w-xl mx-auto"
     >
       {/* Trigger */}
       <motion.div
