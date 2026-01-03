@@ -3,14 +3,14 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import AddNote from "../components/AddNote";
 import Notes from "../components/Notes";
-import NotLoggedIn from "../components/NotLoggedIn";
-import { NOTES_ENDPOINTS } from "../utils/endpoint";
 import Hero from "../components/Hero";
+import { NOTES_ENDPOINTS } from "../utils/endpoint";
+import { useOutletContext } from "react-router-dom";
 
 const Home = () => {
+  const { search } = useOutletContext(); // 🔑 FROM ROOT
   const { isAuthenticated, token } = useSelector((state) => state.auth);
 
-  // 🔥 SHARED STATE
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -20,9 +20,7 @@ const Home = () => {
     const fetchNotes = async () => {
       try {
         const res = await axios.get(NOTES_ENDPOINTS.GET_ALL, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setNotes(res.data);
       } catch (err) {
@@ -46,7 +44,12 @@ const Home = () => {
       </div>
 
       <div className="pt-40 px-20">
-        <Notes notes={notes} setNotes={setNotes} loading={loading} />
+        <Notes
+          notes={notes}
+          setNotes={setNotes}
+          loading={loading}
+          search={search}
+        />
       </div>
     </>
   );
