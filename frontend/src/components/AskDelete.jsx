@@ -15,7 +15,7 @@ const AskDelete = ({ onConfirm, onCancel }) => {
       >
         {/* Header */}
         <div className="px-6 py-4 border-b border-[var(--border-light)]">
-          <p className="text-xs uppercase tracking-wide text-[var(--text-secondary)]">
+          <p className="text-xs font-medium uppercase tracking-wide text-[var(--text-secondary)]">
             Keep Notes
           </p>
         </div>
@@ -26,12 +26,12 @@ const AskDelete = ({ onConfirm, onCancel }) => {
            Are you sure you want to Delete this note?
           </h3>
           <p className="mt-2 text-xs leading-relaxed text-[var(--text-secondary)]">
-            This action cannot be undone. The note will be permanently removed.
+            This action cannot be undone. The note will be permanently deleted.
           </p>
         </div>
 
         {/* Actions */}
-        <div className="flex justify-end gap-3 px-6 py-4 bg-[var(--bg-main)]/40">
+        <div className="flex justify-end gap-3 px-6 py-4">
           <button
             onClick={onCancel}
             className="
