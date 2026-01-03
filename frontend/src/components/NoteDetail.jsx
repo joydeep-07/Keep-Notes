@@ -47,7 +47,6 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
   const [content, setContent] = useState(note.note);
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
-
   // Toolbar states
   const [fontSize, setFontSize] = useState("normal");
   const [textColor, setTextColor] = useState("#000000");
@@ -143,11 +142,10 @@ const NoteDetail = ({ note, onClose, onDelete, onUpdate, token }) => {
     }
   };
 
- const handleDeleteNote = async () => {
-   await onDelete(note._id);
-   onClose();
- };
-
+  const handleDeleteNote = async () => {
+    await onDelete(note._id);
+    onClose();
+  };
 
   /* ================= RENDER ================= */
 

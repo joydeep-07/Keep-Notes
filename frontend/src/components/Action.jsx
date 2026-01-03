@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { motion, AnimatePresence } from "framer-motion";
+import AskDelete from "./AskDelete"; // adjust path if needed
 
 const dropdownVariants = {
   hidden: { opacity: 0, y: -6, scale: 0.95 },
@@ -20,6 +21,7 @@ const dropdownVariants = {
 
 const Action = ({ onDelete, onDownload }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const wrapperRef = useRef(null);
 
   const handleDropdown = (e) => {
@@ -39,13 +41,15 @@ const Action = ({ onDelete, onDownload }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleDelete = (e) => {
+  const handleDeleteClick = (e) => {
     e.stopPropagation();
     setIsOpen(false);
+    setShowDeleteModal(true);
+  };
 
-    if (window.confirm("Are you sure you want to delete this note?")) {
-      onDelete?.();
-    }
+  const handleConfirmDelete = () => {
+    setShowDeleteModal(false);
+    onDelete?.();
   };
 
   const handleDownload = (e) => {
@@ -55,53 +59,65 @@ const Action = ({ onDelete, onDownload }) => {
   };
 
   return (
-    <div className="relative" ref={wrapperRef}>
-      <button
-        onClick={handleDropdown}
-        className="p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-main)] transition"
-      >
-        <BsThreeDotsVertical />
-      </button>
+    <>
+      <div className="relative" ref={wrapperRef}>
+        <button
+          onClick={handleDropdown}
+          className="p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-main)] transition"
+        >
+          <BsThreeDotsVertical />
+        </button>
 
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              className="
+                absolute 
+                right-0 
+                mt-2 
+                w-44 
+                bg-[var(--bg-secondary)] 
+                border 
+                border-[var(--border-light)] 
+                rounded-lg 
+                shadow-lg 
+                z-50
+              "
+              variants={dropdownVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              {/* Download */}
+              <button
+                onClick={handleDownload}
+                className="w-full px-4 py-2 text-left text-sm font-medium rounded-t-lg hover:text-emerald-500 hover:bg-[var(--text-secondary)]/8"
+              >
+                Download
+              </button>
+
+              {/* Delete */}
+              <button
+                onClick={handleDeleteClick}
+                className="w-full px-4 py-2 text-left text-sm font-medium rounded-b-lg hover:text-red-500 hover:bg-[var(--text-secondary)]/8"
+              >
+                Delete
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Delete Confirmation Modal */}
       <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            className="
-              absolute 
-              right-0 
-              mt-2 
-              w-44 
-              bg-[var(--bg-secondary)] 
-              border 
-              border-[var(--border-light)] 
-              rounded-lg 
-              shadow-lg 
-              z-50
-            "
-            variants={dropdownVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-          >
-            {/* Download */}
-            <button
-              onClick={handleDownload}
-              className="w-full px-4 py-2 text-left text-sm font-medium rounded-t-lg hover:text-emerald-500 hover:bg-[var(--text-secondary)]/8"
-            >
-              Download
-            </button>
-
-            {/* Delete */}
-            <button
-              onClick={handleDelete}
-              className="w-full px-4 py-2 text-left text-sm font-medium rounded-b-lg hover:text-red-500 hover:bg-[var(--text-secondary)]/8"
-            >
-              Delete
-            </button>
-          </motion.div>
+        {showDeleteModal && (
+          <AskDelete
+            onConfirm={handleConfirmDelete}
+            onCancel={() => setShowDeleteModal(false)}
+          />
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 };
 

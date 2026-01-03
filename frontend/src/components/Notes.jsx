@@ -37,7 +37,7 @@ const Notes = ({ notes, setNotes, loading, search }) => {
           <div
             key={note._id}
             onClick={() => setSelectedNote(note)}
-            className="bg-[var(--bg-secondary)]/40 border border-[var(--border-light)]/70 rounded-xl p-4 cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
+            className="bg-[var(--bg-secondary)]/40 border border-[var(--border-light)]/70 rounded-xl p-4 cursor-pointer hover:shadow-lg transition-all duration-300 flex flex-col"
           >
             <h2 className="text-lg font-semibold text-[var(--accent-primary)] mb-2 line-clamp-1">
               {note.title}
